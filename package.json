@@ -1,0 +1,25 @@
+{
+  "name": "animals",
+  "version": "0.0.1",
+  "description": "A developmental game for young kids.",
+  "main": "...",
+  "scripts": {
+    "tsc": "tsc -p src -w",
+    "start": "live-server --open=src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttowncompiled/animals.git"
+  },
+  "author": "ttowncompiled",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ttowncompiled/animals/issues"
+  },
+  "homepage": "https://github.com/ttowncompiled/animals#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^0.8.2",
+    "typescript": "^1.6.2"
+  }
+}
