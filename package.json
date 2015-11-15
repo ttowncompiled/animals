@@ -5,7 +5,7 @@
   "main": "...",
   "scripts": {
     "tsc": "tsc -p src -w",
-    "start": "live-server --open=src"
+    "start": "live-server"
   },
   "repository": {
     "type": "git",
