@@ -17,11 +17,7 @@
     "url": "https://github.com/ttowncompiled/animals/issues"
   },
   "homepage": "https://github.com/ttowncompiled/animals#readme",
-  "dependencies": {
-    "angular2": "^2.0.0-alpha.46",
-    "materialize-css": "^0.97.3",
-    "systemjs": "^0.19.6"
-  },
+  "dependencies": {},
   "devDependencies": {
     "live-server": "^0.8.2",
     "typescript": "^1.6.2"
