@@ -12,6 +12,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var angular2_1 = require('angular2/angular2');
 var router_1 = require('angular2/router');
 var home_1 = require('../home/home');
+var edit_1 = require('../edit/edit');
 var Index = (function () {
     function Index(router) {
         this.router = router;
@@ -25,8 +26,9 @@ var Index = (function () {
             template: "\n    <div class=\"row\">\n      <div class=\"col s12\">\n        <a [router-link]=\"['/Home']\">Home</a>\n      </div>\n    </div>\n    <div class=\"container\">\n      <div class=\"center-align\">\n        <router-outlet></router-outlet>\n      </div>\n    </div>\n  "
         }),
         router_1.RouteConfig([
-            { path: "/animals", redirectTo: "/animals/home" },
-            { path: "/animals/home", as: "Home", component: home_1.Home }
+            { path: "/", redirectTo: "/home" },
+            { path: "/home", as: "Home", component: home_1.Home },
+            { path: "/edit", as: "Edit", component: edit_1.Edit }
         ]), 
         __metadata('design:paramtypes', [router_1.Router])
     ], Index);
@@ -36,6 +38,6 @@ exports.Index = Index;
 angular2_1.bootstrap(Index, [
     router_1.ROUTER_BINDINGS,
     angular2_1.bind(router_1.ROUTER_PRIMARY_COMPONENT).toValue(Index),
-    angular2_1.bind(router_1.APP_BASE_HREF).toValue("/animals")
+    angular2_1.bind(router_1.APP_BASE_HREF).toValue("/")
 ]);
 //# sourceMappingURL=index.js.map

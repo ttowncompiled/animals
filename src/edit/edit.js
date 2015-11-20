@@ -10,21 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var angular2_1 = require('angular2/angular2');
-var router_1 = require('angular2/router');
-var Home = (function () {
-    function Home() {
+var Edit = (function () {
+    function Edit() {
     }
-    Home = __decorate([
+    Edit = __decorate([
         angular2_1.Component({
-            selector: 'home'
+            selector: 'edit'
         }),
         angular2_1.View({
-            directives: [router_1.ROUTER_DIRECTIVES],
-            template: "\n    <a class=\"waves-effect waves-light btn-large\" [router-link]=\"['/Edit']\">Edit</a>\n    <a class=\"waves-effect waves-light btn-large\">Play</a>\n  "
+            template: "\n    <p>edit</p>\n  "
         }), 
         __metadata('design:paramtypes', [])
-    ], Home);
-    return Home;
+    ], Edit);
+    return Edit;
 })();
-exports.Home = Home;
-//# sourceMappingURL=home.js.map
+exports.Edit = Edit;
+//# sourceMappingURL=edit.js.map
