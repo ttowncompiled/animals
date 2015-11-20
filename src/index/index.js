@@ -22,11 +22,11 @@ var Index = (function () {
         }),
         angular2_1.View({
             directives: [router_1.ROUTER_DIRECTIVES],
-            template: "\n    \n    <div class=\"row\">\n      <div class=\"col s12\">\n        <a [router-link]=\"['/Home']\">Home</a>\n      </div>\n    </div>\n    <div class=\"container\">\n      <div class=\"center-align\">\n        <router-outlet></router-outlet>\n      </div>\n    </div>\n  "
+            template: "\n    <div class=\"row\">\n      <div class=\"col s12\">\n        <a [router-link]=\"['/Home']\">Home</a>\n      </div>\n    </div>\n    <div class=\"container\">\n      <div class=\"center-align\">\n        <router-outlet></router-outlet>\n      </div>\n    </div>\n  "
         }),
         router_1.RouteConfig([
-            { path: "/", redirectTo: "/home" },
-            { path: "/home", as: "Home", component: home_1.Home }
+            { path: "/animals", redirectTo: "/animals/home" },
+            { path: "/animals/home", as: "Home", component: home_1.Home }
         ]), 
         __metadata('design:paramtypes', [router_1.Router])
     ], Index);
@@ -36,6 +36,6 @@ exports.Index = Index;
 angular2_1.bootstrap(Index, [
     router_1.ROUTER_BINDINGS,
     angular2_1.bind(router_1.ROUTER_PRIMARY_COMPONENT).toValue(Index),
-    angular2_1.bind(router_1.APP_BASE_HREF).toValue('/')
+    angular2_1.bind(router_1.APP_BASE_HREF).toValue("/animals")
 ]);
 //# sourceMappingURL=index.js.map

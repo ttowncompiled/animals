@@ -29,8 +29,8 @@ import { Home } from '../home/home';
   `
 })
 @RouteConfig([
-  { path: "/", redirectTo: "/home" },
-  { path: "/home", as: "Home", component: Home }
+  { path: "/animals", redirectTo: "/animals/home" },
+  { path: "/animals/home", as: "Home", component: Home }
 ])
 export class Index {
   constructor(public router: Router) {}
@@ -39,5 +39,5 @@ export class Index {
 bootstrap(Index, [
   ROUTER_BINDINGS,
   bind(ROUTER_PRIMARY_COMPONENT).toValue(Index),
-  bind(APP_BASE_HREF).toValue('/')
+  bind(APP_BASE_HREF).toValue("/animals")
 ]);
