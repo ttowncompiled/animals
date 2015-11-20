@@ -4,18 +4,20 @@
     <!-- Angular 2 dependencies -->
     <script src="https://code.angularjs.org/tools/system.js"></script>
     <script src="https://code.angularjs.org/2.0.0-alpha.46/angular2.min.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-alpha.46/router.js"></script>
     <!-- Materialize CSS dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
     <script>
       System.config({
-        packages: {'src/app': {defaultExtension: 'js'}},
+        packages: {
+          'src/index': {defaultExtension: 'js'},
+          'src/home': {defaultExtension: 'js'}
+        }
       });
-      System.import('src/app/app');
+      System.import('src/index/index');
     </script>
   </head>
-  <body class="valign-wrapper">
-    <div class="container valign">
-      <app>loading...</app>
-    </div>
+  <body>
+    <index></index>
   </body>
 </html>
