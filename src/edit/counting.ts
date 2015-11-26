@@ -1,11 +1,11 @@
 import { Component, View } from 'angular2/angular2';
 
 @Component({
-  selector: 'math'
+  selector: 'counting'
 })
 @View({
   template: `
-    <p>math</p>
+    <p>counting</p>
   `
 })
-export class MathComponent {}
+export class CountingComponent {}

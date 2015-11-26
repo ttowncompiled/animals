@@ -8,7 +8,7 @@ import {
   RouteConfig
 } from 'angular2/router';
 
-import { MathComponent } from './edit/math';
+import { CountingComponent } from './edit/counting';
 
 @Component({
   selector: 'app'
@@ -16,13 +16,13 @@ import { MathComponent } from './edit/math';
 @View({
   directives: [ROUTER_DIRECTIVES],
   template: `
-    <a [router-link]="['/Math']">Math</a>
+    <a [router-link]="['/Counting']">Counting</a>
     <router-outlet></router-outlet>
   `
 })
 @RouteConfig([
-  { path: '/', redirectTo: '/math' },
-  { path: '/math', as: 'Math', component: MathComponent }
+  { path: '/', redirectTo: '/counting' },
+  { path: '/counting', as: 'Counting', component: CountingComponent }
 ])
 export class AppComponent {
   constructor(public router: Router) {}

@@ -10,19 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var angular2_1 = require('angular2/angular2');
-var MathComponent = (function () {
-    function MathComponent() {
+var CountingComponent = (function () {
+    function CountingComponent() {
     }
-    MathComponent = __decorate([
+    CountingComponent = __decorate([
         angular2_1.Component({
-            selector: 'math'
+            selector: 'counting'
         }),
         angular2_1.View({
-            template: "\n    <p>math</p>\n  "
+            template: "\n    <p>counting</p>\n  "
         }), 
         __metadata('design:paramtypes', [])
-    ], MathComponent);
-    return MathComponent;
+    ], CountingComponent);
+    return CountingComponent;
 })();
-exports.MathComponent = MathComponent;
-//# sourceMappingURL=math.js.map
+exports.CountingComponent = CountingComponent;
+//# sourceMappingURL=counting.js.map
