@@ -11,20 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var angular2_1 = require('angular2/angular2');
 var router_1 = require('angular2/router');
-var Home = (function () {
-    function Home() {
+var AppComponent = (function () {
+    function AppComponent(router) {
+        this.router = router;
     }
-    Home = __decorate([
+    AppComponent = __decorate([
         angular2_1.Component({
-            selector: 'home'
+            selector: 'app'
         }),
         angular2_1.View({
             directives: [router_1.ROUTER_DIRECTIVES],
-            template: "\n    <a class=\"waves-effect waves-light btn-large\" [router-link]=\"['/Edit']\">Edit</a>\n    <a class=\"waves-effect waves-light btn-large\">Play</a>\n  "
+            template: "\n    <router-outlet></router-outlet>\n  "
         }), 
-        __metadata('design:paramtypes', [])
-    ], Home);
-    return Home;
+        __metadata('design:paramtypes', [router_1.Router])
+    ], AppComponent);
+    return AppComponent;
 })();
-exports.Home = Home;
-//# sourceMappingURL=home.js.map
+exports.AppComponent = AppComponent;
+angular2_1.bootstrap(AppComponent, [
+    router_1.ROUTER_BINDINGS,
+    angular2_1.bind(router_1.ROUTER_PRIMARY_COMPONENT).toValue(AppComponent),
+    angular2_1.bind(router_1.APP_BASE_HREF).toValue("/")
+]);
+//# sourceMappingURL=app.js.map

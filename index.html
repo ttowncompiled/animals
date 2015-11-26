@@ -10,15 +10,13 @@
     <script>
       System.config({
         packages: {
-          "src/index": { defaultExtension: "js" },
-          "src/home": { defaultExtension: "js" },
-          "src/edit": { defaultExtension: "js" }
+          "src/": { defaultExtension: "js" }
         }
       });
-      System.import("src/index/index");
+      System.import("src/app");
     </script>
   </head>
   <body>
-    <index></index>
+    <app></app>
   </body>
 </html>
