@@ -8,15 +8,22 @@ import {
   RouteConfig
 } from 'angular2/router';
 
+import { MathComponent } from './edit/math';
+
 @Component({
   selector: 'app'
 })
 @View({
   directives: [ROUTER_DIRECTIVES],
   template: `
+    <a [router-link]="['/Math']">Math</a>
     <router-outlet></router-outlet>
   `
 })
+@RouteConfig([
+  { path: '/', redirectTo: '/math' },
+  { path: '/math', as: 'Math', component: MathComponent }
+])
 export class AppComponent {
   constructor(public router: Router) {}
 }
@@ -24,5 +31,5 @@ export class AppComponent {
 bootstrap(AppComponent, [
   ROUTER_BINDINGS,
   bind(ROUTER_PRIMARY_COMPONENT).toValue(AppComponent),
-  bind(APP_BASE_HREF).toValue("/")
+  bind(APP_BASE_HREF).toValue('/')
 ]);

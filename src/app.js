@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var angular2_1 = require('angular2/angular2');
 var router_1 = require('angular2/router');
+var math_1 = require('./edit/math');
 var AppComponent = (function () {
     function AppComponent(router) {
         this.router = router;
@@ -21,8 +22,12 @@ var AppComponent = (function () {
         }),
         angular2_1.View({
             directives: [router_1.ROUTER_DIRECTIVES],
-            template: "\n    <router-outlet></router-outlet>\n  "
-        }), 
+            template: "\n    <a [router-link]=\"['/Math']\">Math</a>\n    <router-outlet></router-outlet>\n  "
+        }),
+        router_1.RouteConfig([
+            { path: '/', redirectTo: '/math' },
+            { path: '/math', as: 'Math', component: math_1.MathComponent }
+        ]), 
         __metadata('design:paramtypes', [router_1.Router])
     ], AppComponent);
     return AppComponent;
@@ -31,6 +36,6 @@ exports.AppComponent = AppComponent;
 angular2_1.bootstrap(AppComponent, [
     router_1.ROUTER_BINDINGS,
     angular2_1.bind(router_1.ROUTER_PRIMARY_COMPONENT).toValue(AppComponent),
-    angular2_1.bind(router_1.APP_BASE_HREF).toValue("/")
+    angular2_1.bind(router_1.APP_BASE_HREF).toValue('/')
 ]);
 //# sourceMappingURL=app.js.map
