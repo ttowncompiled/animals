@@ -12,6 +12,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var angular2_1 = require('angular2/angular2');
 var router_1 = require('angular2/router');
 var counting_1 = require('./edit/counting');
+var firebase_1 = require('./services/firebase');
 var AppComponent = (function () {
     function AppComponent(router) {
         this.router = router;
@@ -36,6 +37,8 @@ exports.AppComponent = AppComponent;
 angular2_1.bootstrap(AppComponent, [
     router_1.ROUTER_BINDINGS,
     angular2_1.bind(router_1.ROUTER_PRIMARY_COMPONENT).toValue(AppComponent),
-    angular2_1.bind(router_1.APP_BASE_HREF).toValue('/')
+    angular2_1.bind(router_1.APP_BASE_HREF).toValue('/'),
+    angular2_1.bind(router_1.LocationStrategy).toClass(router_1.HashLocationStrategy),
+    firebase_1.FirebaseService
 ]);
 //# sourceMappingURL=app.js.map

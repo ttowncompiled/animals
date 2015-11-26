@@ -4,11 +4,13 @@ import {
   ROUTER_BINDINGS,
   ROUTER_DIRECTIVES,
   ROUTER_PRIMARY_COMPONENT,
+  HashLocationStrategy,
+  LocationStrategy,
   Router,
   RouteConfig
 } from 'angular2/router';
-
 import { CountingComponent } from './edit/counting';
+import { FirebaseService } from './services/firebase';
 
 @Component({
   selector: 'app'
@@ -31,5 +33,7 @@ export class AppComponent {
 bootstrap(AppComponent, [
   ROUTER_BINDINGS,
   bind(ROUTER_PRIMARY_COMPONENT).toValue(AppComponent),
-  bind(APP_BASE_HREF).toValue('/')
+  bind(APP_BASE_HREF).toValue('/'),
+  bind(LocationStrategy).toClass(HashLocationStrategy),
+  FirebaseService
 ]);

@@ -9,26 +9,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+/// <reference path="../../typings/tsd.d.ts" />
 var angular2_1 = require('angular2/angular2');
-var firebase_1 = require('../services/firebase');
-var CountingComponent = (function () {
-    function CountingComponent(firebase) {
-        this.firebase = firebase;
-        console.log("hello world");
-        firebase.dataRef.child('counting').on('value', function (snapshot) {
-            console.log(snapshot.val());
-        });
+var FirebaseService = (function () {
+    function FirebaseService() {
+        this.dataRef = new Firebase('https://animals.firebaseIO.com');
     }
-    CountingComponent = __decorate([
-        angular2_1.Component({
-            selector: 'counting'
-        }),
-        angular2_1.View({
-            template: "\n    <p>counting</p>\n  "
-        }), 
-        __metadata('design:paramtypes', [firebase_1.FirebaseService])
-    ], CountingComponent);
-    return CountingComponent;
+    FirebaseService = __decorate([
+        angular2_1.Injectable(), 
+        __metadata('design:paramtypes', [])
+    ], FirebaseService);
+    return FirebaseService;
 })();
-exports.CountingComponent = CountingComponent;
-//# sourceMappingURL=counting.js.map
+exports.FirebaseService = FirebaseService;
+//# sourceMappingURL=firebase.js.map

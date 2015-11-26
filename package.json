@@ -17,10 +17,13 @@
     "url": "https://github.com/ttowncompiled/animals/issues"
   },
   "homepage": "https://github.com/ttowncompiled/animals#readme",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "angular2": "^2.0.0-alpha.46",
+    "systemjs": "^0.19.6"
+  },
+  "devDependencies": {
     "live-server": "^0.8.2",
+    "tsd": "^0.6.5",
     "typescript": "^1.6.2"
   }
 }
