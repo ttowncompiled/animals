@@ -2,6 +2,7 @@
 /// <reference path="../../typings/tsd.d.ts" />
 import { Component, NgFor, View, FORM_DIRECTIVES } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
+import { Util } from '../lib/util';
 declare var Rx;
 
 @Component({
@@ -30,6 +31,7 @@ declare var Rx;
 })
 export class CountingComponent {
   questions: CountingQ[] = [];
+  
   constructor(public firebase: FirebaseService) {
     Rx.Observable.create((observer: Rx.Observer<any>) => {
         this.firebase.dataRef.child('counting').on('value', (snapshot: FirebaseDataSnapshot) => {
@@ -61,7 +63,7 @@ export class CountingComponent {
   }
   
   remove(value: number): void {
-    this.firebase.dataRef.child(`counting/q${ value }`).remove((error: any) => {
+    this.firebase.dataRef.child(`counting/q${ Util.enumerate(value) }`).remove((error: any) => {
       if (error != null) {
         console.log("error");
         return;
@@ -70,14 +72,14 @@ export class CountingComponent {
     });
   }
   
-  private renumberQuestions(value: number) {
+  private renumberQuestions(value: number): void {
     this.firebase.dataRef.child('counting').once('value', (snapshot: FirebaseDataSnapshot) => {
         var counter: number = value;
         var val: any = snapshot.val();
         var newVal: any = {};
         Object.keys(val).sort().forEach((key: string) => {
-          if (key > `q${counter}`) {
-            newVal[`q${counter}`] = val[key];
+          if (key > `q${ Util.enumerate(counter) }`) {
+            newVal[`q${ Util.enumerate(counter) }`] = val[key];
             counter++;
           } else {
             newVal[key] = val[key];
