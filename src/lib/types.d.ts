@@ -1,8 +1,8 @@
 interface CountingQ {
   value: number;
-  animals: AnimalValuePair[];
+  animals: AnimalCount[];
 }
-interface AnimalValuePair {
+interface AnimalCount {
   name: string;
-  value: number;
+  count: number;
 }

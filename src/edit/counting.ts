@@ -18,7 +18,7 @@ declare var Rx;
         <form #f="form">
           <div *ng-for="#animal of q.animals">
             <input type="text" value="{{ animal.name }}">
-            <input type="text" value="{{ animal.value }}">
+            <input type="text" value="{{ animal.count }}">
           </div>
         </form>
         <button type="button">add animal</button>
@@ -42,17 +42,17 @@ export class CountingComponent {
           .map((key: string) => val[key])
           .toArray();
       })
-      .flatMap((qs: {[animal: string]: AnimalValuePair}[]) => {
-        var counting: number = 0;
+      .flatMap((qs: {[animal: string]: AnimalCount}[]) => {
+        var counter: number = 0;
         return Rx.Observable.from(qs)
-          .flatMap((q: {[animal: string]: AnimalValuePair}) => {
+          .flatMap((q: {[animal: string]: AnimalCount}) => {
             return Rx.Observable.from(Object.keys(q))
               .map((animal: string) => q[animal])
               .toArray();
           })
-          .map((pairs: AnimalValuePair[]) => {
-            counting++;
-            return { value: counting, animals: pairs }
+          .map((pairs: AnimalCount[]) => {
+            counter++;
+            return { value: counter, animals: pairs }
           })
           .toArray();
       })

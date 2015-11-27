@@ -12,6 +12,14 @@ export class FirebaseService {
     return `q${ value }`;
   }
   
+  public static pluralize(name: string): string {
+    switch(name) {
+      case 'cow': return 'cow(s)';
+      case 'pig': return 'pig(s)';
+    }
+    return name;
+  }
+  
   constructor() {
     this.dataRef = new Firebase('https://animals.firebaseIO.com');
   }

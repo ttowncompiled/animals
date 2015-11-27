@@ -15,11 +15,18 @@ var FirebaseService = (function () {
     function FirebaseService() {
         this.dataRef = new Firebase('https://animals.firebaseIO.com');
     }
-    FirebaseService.enumerate = function (value) {
+    FirebaseService.questionFormat = function (value) {
         if (value < 10) {
-            return "0" + value;
+            return "q0" + value;
         }
-        return "" + value;
+        return "q" + value;
+    };
+    FirebaseService.pluralize = function (name) {
+        switch (name) {
+            case 'cow': return 'cow(s)';
+            case 'pig': return 'pig(s)';
+        }
+        return name;
     };
     FirebaseService.prototype.renumberQuestions = function (child, value) {
         var _this = this;
@@ -28,8 +35,8 @@ var FirebaseService = (function () {
             var val = snapshot.val();
             var newVal = {};
             Object.keys(val).sort().forEach(function (key) {
-                if (key > "q" + FirebaseService.enumerate(counter)) {
-                    newVal[("q" + FirebaseService.enumerate(counter))] = val[key];
+                if (key > "" + FirebaseService.questionFormat(counter)) {
+                    newVal[("" + FirebaseService.questionFormat(counter))] = val[key];
                     counter++;
                 }
                 else {
