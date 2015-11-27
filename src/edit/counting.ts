@@ -2,7 +2,6 @@
 /// <reference path="../../typings/tsd.d.ts" />
 import { Component, NgFor, View, FORM_DIRECTIVES } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
-import { Util } from '../lib/util';
 declare var Rx;
 
 @Component({
@@ -63,29 +62,12 @@ export class CountingComponent {
   }
   
   remove(value: number): void {
-    this.firebase.dataRef.child(`counting/q${ Util.enumerate(value) }`).remove((error: any) => {
+    this.firebase.dataRef.child(`counting/${ FirebaseService.questionFormat(value) }`).remove((error: any) => {
       if (error != null) {
         console.log("error");
         return;
       }
-      this.renumberQuestions(value);
+      this.firebase.renumberQuestions('counting', value);
     });
-  }
-  
-  private renumberQuestions(value: number): void {
-    this.firebase.dataRef.child('counting').once('value', (snapshot: FirebaseDataSnapshot) => {
-        var counter: number = value;
-        var val: any = snapshot.val();
-        var newVal: any = {};
-        Object.keys(val).sort().forEach((key: string) => {
-          if (key > `q${ Util.enumerate(counter) }`) {
-            newVal[`q${ Util.enumerate(counter) }`] = val[key];
-            counter++;
-          } else {
-            newVal[key] = val[key];
-          }
-        });
-        this.firebase.dataRef.child('counting').set(newVal);
-      });
   }
 }

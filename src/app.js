@@ -41,4 +41,3 @@ angular2_1.bootstrap(AppComponent, [
     angular2_1.bind(router_1.LocationStrategy).toClass(router_1.HashLocationStrategy),
     firebase_1.FirebaseService
 ]);
-//# sourceMappingURL=app.js.map

@@ -13,7 +13,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /// <reference path="../../typings/tsd.d.ts" />
 var angular2_1 = require('angular2/angular2');
 var firebase_1 = require('../lib/firebase');
-var util_1 = require('../lib/util');
 var CountingComponent = (function () {
     function CountingComponent(firebase) {
         var _this = this;
@@ -49,30 +48,12 @@ var CountingComponent = (function () {
     }
     CountingComponent.prototype.remove = function (value) {
         var _this = this;
-        this.firebase.dataRef.child("counting/q" + util_1.Util.enumerate(value)).remove(function (error) {
+        this.firebase.dataRef.child("counting/q" + firebase_1.FirebaseService.enumerate(value)).remove(function (error) {
             if (error != null) {
                 console.log("error");
                 return;
             }
-            _this.renumberQuestions(value);
-        });
-    };
-    CountingComponent.prototype.renumberQuestions = function (value) {
-        var _this = this;
-        this.firebase.dataRef.child('counting').once('value', function (snapshot) {
-            var counter = value;
-            var val = snapshot.val();
-            var newVal = {};
-            Object.keys(val).sort().forEach(function (key) {
-                if (key > "q" + util_1.Util.enumerate(counter)) {
-                    newVal[("q" + util_1.Util.enumerate(counter))] = val[key];
-                    counter++;
-                }
-                else {
-                    newVal[key] = val[key];
-                }
-            });
-            _this.firebase.dataRef.child('counting').set(newVal);
+            _this.firebase.renumberQuestions('counting', value);
         });
     };
     CountingComponent = __decorate([
@@ -88,4 +69,3 @@ var CountingComponent = (function () {
     return CountingComponent;
 })();
 exports.CountingComponent = CountingComponent;
-//# sourceMappingURL=counting.js.map

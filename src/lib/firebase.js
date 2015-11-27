@@ -15,6 +15,30 @@ var FirebaseService = (function () {
     function FirebaseService() {
         this.dataRef = new Firebase('https://animals.firebaseIO.com');
     }
+    FirebaseService.enumerate = function (value) {
+        if (value < 10) {
+            return "0" + value;
+        }
+        return "" + value;
+    };
+    FirebaseService.prototype.renumberQuestions = function (child, value) {
+        var _this = this;
+        this.dataRef.child(child).once('value', function (snapshot) {
+            var counter = value;
+            var val = snapshot.val();
+            var newVal = {};
+            Object.keys(val).sort().forEach(function (key) {
+                if (key > "q" + FirebaseService.enumerate(counter)) {
+                    newVal[("q" + FirebaseService.enumerate(counter))] = val[key];
+                    counter++;
+                }
+                else {
+                    newVal[key] = val[key];
+                }
+            });
+            _this.dataRef.child('counting').set(newVal);
+        });
+    };
     FirebaseService = __decorate([
         angular2_1.Injectable(), 
         __metadata('design:paramtypes', [])
@@ -22,4 +46,3 @@ var FirebaseService = (function () {
     return FirebaseService;
 })();
 exports.FirebaseService = FirebaseService;
-//# sourceMappingURL=firebase.js.map
