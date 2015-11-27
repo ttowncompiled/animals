@@ -19,6 +19,7 @@
   "homepage": "https://github.com/ttowncompiled/animals#readme",
   "dependencies": {
     "angular2": "^2.0.0-alpha.46",
+    "rx": "^4.0.7",
     "systemjs": "^0.19.6"
   },
   "devDependencies": {

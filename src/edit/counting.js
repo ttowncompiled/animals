@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 /// <reference path="../lib/types.d.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
 var angular2_1 = require('angular2/angular2');
 var firebase_1 = require('../lib/firebase');
 var CountingComponent = (function () {
@@ -17,18 +18,31 @@ var CountingComponent = (function () {
         var _this = this;
         this.firebase = firebase;
         this.questions = [];
-        firebase.dataRef.child('counting').on('value', function (snapshot) {
-            var val = snapshot.val();
-            var questions = [];
-            var counter = 0;
-            Object.keys(val).sort().forEach(function (key) {
-                counter++;
-                var pairs = [];
-                Object.keys(val[key]).forEach(function (animal) {
-                    pairs.push(val[key][animal]);
-                });
-                questions.push({ value: counter, animals: pairs });
+        Rx.Observable.create(function (observer) {
+            firebase.dataRef.child('counting').on('value', function (snapshot) {
+                observer.onNext(snapshot.val());
             });
+        })
+            .flatMap(function (val) {
+            return Rx.Observable.from(Object.keys(val).sort())
+                .map(function (key) { return val[key]; })
+                .toArray();
+        })
+            .flatMap(function (qs) {
+            var counting = 0;
+            return Rx.Observable.from(qs)
+                .flatMap(function (q) {
+                return Rx.Observable.from(Object.keys(q))
+                    .map(function (animal) { return q[animal]; })
+                    .toArray();
+            })
+                .map(function (pairs) {
+                counting++;
+                return { value: counting, animals: pairs };
+            })
+                .toArray();
+        })
+            .subscribeOnNext(function (questions) {
             _this.questions = questions;
         });
     }

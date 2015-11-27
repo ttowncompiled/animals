@@ -1,6 +1,8 @@
 /// <reference path="../lib/types.d.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
 import { Component, NgFor, View } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
+declare var Rx;
 
 @Component({
   selector: 'counting'
@@ -23,19 +25,32 @@ import { FirebaseService } from '../lib/firebase';
 export class CountingComponent {
   questions: CountingQ[] = [];
   constructor(public firebase: FirebaseService) {
-    firebase.dataRef.child('counting').on('value', (snapshot: FirebaseDataSnapshot) => {
-      var val: any = snapshot.val();
-      var questions: CountingQ[] = [];
-      var counter: number = 0;
-      Object.keys(val).sort().forEach((key: string) => {
-        counter++;
-        var pairs: AnimalValuePair[] = [];
-        Object.keys(val[key]).forEach((animal: string) => {
-          pairs.push(val[key][animal]);
+    Rx.Observable.create((observer: Rx.Observer<any>) => {
+        firebase.dataRef.child('counting').on('value', (snapshot: FirebaseDataSnapshot) => {
+          observer.onNext(snapshot.val());
         });
-        questions.push({ value: counter, animals: pairs });
+      })
+      .flatMap((val: any) => {
+        return Rx.Observable.from(Object.keys(val).sort())
+          .map((key: string) => val[key])
+          .toArray();
+      })
+      .flatMap((qs: {[animal: string]: AnimalValuePair}[]) => {
+        var counting: number = 0;
+        return Rx.Observable.from(qs)
+          .flatMap((q: {[animal: string]: AnimalValuePair}) => {
+            return Rx.Observable.from(Object.keys(q))
+              .map((animal: string) => q[animal])
+              .toArray();
+          })
+          .map((pairs: AnimalValuePair[]) => {
+            counting++;
+            return { value: counting, animals: pairs }
+          })
+          .toArray();
+      })
+      .subscribeOnNext((questions: CountingQ[]) => {
+        this.questions = questions;
       });
-      this.questions = questions;
-    });
   }
 }
