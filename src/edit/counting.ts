@@ -1,6 +1,6 @@
 /// <reference path="../lib/types.d.ts" />
 /// <reference path="../../typings/tsd.d.ts" />
-import { Component, NgFor, View } from 'angular2/angular2';
+import { Component, NgFor, View, FORM_DIRECTIVES } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
 declare var Rx;
 
@@ -8,17 +8,23 @@ declare var Rx;
   selector: 'counting'
 })
 @View({
-  directives: [NgFor],
+  directives: [NgFor, FORM_DIRECTIVES],
   template: `
     <p>counting</p>
     <p>questions</p>
     <ul>
       <li *ng-for="#q of questions">
         <p>question: {{ q.value }}</p>
-        <div *ng-for="#animal of q.animals">
-          <p>name: {{ animal.name }}</p>
-          <p>value: {{ animal.value }}</p>
+        <form #f="form">
+          <div *ng-for="#animal of q.animals">
+            <input type="text" value="{{ animal.name }}">
+            <input type="text" value="{{ animal.value }}">
+          </div>
+        </form>
+        <button type="button">add animal</button>
+        <button type="button" (click)="remove(q.value)">remove question</button>
       </li>
+      <button type="button">add question</button>
     </ul>
   `
 })
@@ -26,7 +32,7 @@ export class CountingComponent {
   questions: CountingQ[] = [];
   constructor(public firebase: FirebaseService) {
     Rx.Observable.create((observer: Rx.Observer<any>) => {
-        firebase.dataRef.child('counting').on('value', (snapshot: FirebaseDataSnapshot) => {
+        this.firebase.dataRef.child('counting').on('value', (snapshot: FirebaseDataSnapshot) => {
           observer.onNext(snapshot.val());
         });
       })
@@ -51,6 +57,33 @@ export class CountingComponent {
       })
       .subscribeOnNext((questions: CountingQ[]) => {
         this.questions = questions;
+      });
+  }
+  
+  remove(value: number): void {
+    this.firebase.dataRef.child(`counting/q${ value }`).remove((error: any) => {
+      if (error != null) {
+        console.log("error");
+        return;
+      }
+      this.renumberQuestions(value);
+    });
+  }
+  
+  private renumberQuestions(value: number) {
+    this.firebase.dataRef.child('counting').once('value', (snapshot: FirebaseDataSnapshot) => {
+        var counter: number = value;
+        var val: any = snapshot.val();
+        var newVal: any = {};
+        Object.keys(val).sort().forEach((key: string) => {
+          if (key > `q${counter}`) {
+            newVal[`q${counter}`] = val[key];
+            counter++;
+          } else {
+            newVal[key] = val[key];
+          }
+        });
+        this.firebase.dataRef.child('counting').set(newVal);
       });
   }
 }

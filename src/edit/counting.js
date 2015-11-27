@@ -19,7 +19,7 @@ var CountingComponent = (function () {
         this.firebase = firebase;
         this.questions = [];
         Rx.Observable.create(function (observer) {
-            firebase.dataRef.child('counting').on('value', function (snapshot) {
+            _this.firebase.dataRef.child('counting').on('value', function (snapshot) {
                 observer.onNext(snapshot.val());
             });
         })
@@ -46,13 +46,37 @@ var CountingComponent = (function () {
             _this.questions = questions;
         });
     }
+    CountingComponent.prototype.remove = function (value) {
+        var _this = this;
+        console.log("remove counting/q" + value);
+        this.firebase.dataRef.child("counting/q" + value).remove(function (error) {
+            if (error != null) {
+                console.log("error");
+            }
+            _this.firebase.dataRef.child('counting').once('value', function (snapshot) {
+                var val = snapshot.val();
+                var newVal = {};
+                var counter = value;
+                Object.keys(val).sort().forEach(function (key) {
+                    if (key > "q" + counter) {
+                        newVal[("q" + counter)] = val[key];
+                        counter++;
+                    }
+                    else {
+                        newVal[key] = val[key];
+                    }
+                });
+                _this.firebase.dataRef.child('counting').set(newVal);
+            });
+        });
+    };
     CountingComponent = __decorate([
         angular2_1.Component({
             selector: 'counting'
         }),
         angular2_1.View({
-            directives: [angular2_1.NgFor],
-            template: "\n    <p>counting</p>\n    <p>questions</p>\n    <ul>\n      <li *ng-for=\"#q of questions\">\n        <p>question: {{ q.value }}</p>\n        <div *ng-for=\"#animal of q.animals\">\n          <p>name: {{ animal.name }}</p>\n          <p>value: {{ animal.value }}</p>\n      </li>\n    </ul>\n  "
+            directives: [angular2_1.NgFor, angular2_1.FORM_DIRECTIVES],
+            template: "\n    <p>counting</p>\n    <p>questions</p>\n    <ul>\n      <li *ng-for=\"#q of questions\">\n        <p>question: {{ q.value }}</p>\n        <form #f=\"form\">\n          <div *ng-for=\"#animal of q.animals\">\n            <input type=\"text\" value=\"{{ animal.name }}\">\n            <input type=\"text\" value=\"{{ animal.value }}\">\n          </div>\n        </form>\n        <button type=\"button\">add animal</button>\n        <button type=\"button\" (click)=\"remove(q.value)\">remove question</button>\n      </li>\n      <button type=\"button\">add question</button>\n    </ul>\n  "
         }), 
         __metadata('design:paramtypes', [firebase_1.FirebaseService])
     ], CountingComponent);
