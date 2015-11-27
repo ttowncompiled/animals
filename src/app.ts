@@ -10,7 +10,7 @@ import {
   RouteConfig
 } from 'angular2/router';
 import { CountingComponent } from './edit/counting';
-import { FirebaseService } from './services/firebase';
+import { FirebaseService } from './lib/firebase';
 
 @Component({
   selector: 'app'

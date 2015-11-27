@@ -12,7 +12,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var angular2_1 = require('angular2/angular2');
 var router_1 = require('angular2/router');
 var counting_1 = require('./edit/counting');
-var firebase_1 = require('./services/firebase');
+var firebase_1 = require('./lib/firebase');
 var AppComponent = (function () {
     function AppComponent(router) {
         this.router = router;
