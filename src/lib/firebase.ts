@@ -17,11 +17,21 @@ export class FirebaseService {
   }
   
   public observeChanges(group: ControlGroup, ext: string, question: number, animal: string): void {
-    var child: string = `${ ext }/${ FirebaseService.questionFormat(question) }/${ animal }`;
+    var child: string = `${ ext }/${ FirebaseService.questionFormat(question) }/`;
     group.valueChanges
-      .debounceTime(500)
+      .debounceTime(100)
       .subscribe((value: any) => {
-        this.dataRef.child(child).update(group.value);
+        if (group.value.name != animal) {
+          this.dataRef.child(child + animal).remove((error: any) => {
+            if (error != null) {
+              console.error(error);
+              return;
+            }
+            this.dataRef.child(child + group.value.name).set(group.value);
+          })
+        } else {
+          this.dataRef.child(child + animal).update(group.value);
+        }
       });
   }
   

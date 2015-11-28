@@ -12,10 +12,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /// <reference path="../lib/types.d.ts" />
 var angular2_1 = require('angular2/angular2');
 var firebase_1 = require('../lib/firebase');
+var lib_1 = require('../lib/lib');
 var CountingComponent = (function () {
     function CountingComponent(firebase) {
         var _this = this;
         this.firebase = firebase;
+        this.ANIMAL_NAMES = lib_1.ANIMALS;
         this.questions = [];
         this.firebase.onChild(CountingComponent.CHILD)
             .flatMap(function (qs) {
@@ -54,7 +56,7 @@ var CountingComponent = (function () {
         }),
         angular2_1.View({
             directives: [angular2_1.FORM_DIRECTIVES, angular2_1.NgFor],
-            template: "\n    <p>counting</p>\n    <p>questions</p>\n    <ul>\n      <li *ng-for=\"#q of questions\">\n        <p>question: {{ q.value }}</p>\n        <div *ng-for=\"#animal of q.animals\">\n          <form [ng-form-model]=\"animal\">\n            <input type=\"text\" [ng-form-control]=\"animal.controls['name']\">\n            <input type=\"text\" [ng-form-control]=\"animal.controls['count']\">\n          </form>\n        </div>\n        <button type=\"button\">add animal</button>\n        <button type=\"button\" (click)=\"remove(q.value)\">remove question</button>\n      </li>\n      <button type=\"button\">add question</button>\n    </ul>\n  ",
+            template: "\n    <p>counting</p>\n    <p>questions</p>\n    <ul>\n      <li *ng-for=\"#q of questions\">\n        <p>question: {{ q.value }}</p>\n        <div *ng-for=\"#animal of q.animals\">\n          <form [ng-form-model]=\"animal\">\n            <select [ng-form-control]=\"animal.controls['name']\">\n              <option *ng-for=\"#name of ANIMAL_NAMES\" [value]=\"name\">{{ name }}</option>\n            </select>\n            <input type=\"text\" [ng-form-control]=\"animal.controls['count']\">\n          </form>\n        </div>\n        <button type=\"button\">add animal</button>\n        <button type=\"button\" (click)=\"remove(q.value)\">remove question</button>\n      </li>\n      <button type=\"button\">add question</button>\n    </ul>\n  ",
             encapsulation: angular2_1.ViewEncapsulation.None
         }), 
         __metadata('design:paramtypes', [firebase_1.FirebaseService])

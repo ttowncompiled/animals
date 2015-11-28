@@ -9,6 +9,7 @@ import {
   ViewEncapsulation
 } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
+import { ANIMALS } from '../lib/lib';
 declare var Rx;
 
 interface Question {
@@ -29,7 +30,9 @@ interface Question {
         <p>question: {{ q.value }}</p>
         <div *ng-for="#animal of q.animals">
           <form [ng-form-model]="animal">
-            <input type="text" [ng-form-control]="animal.controls['name']">
+            <select [ng-form-control]="animal.controls['name']">
+              <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ name }}</option>
+            </select>
             <input type="text" [ng-form-control]="animal.controls['count']">
           </form>
         </div>
@@ -43,6 +46,7 @@ interface Question {
 })
 export class CountingComponent {
   static CHILD: string = 'counting';
+  ANIMAL_NAMES: string[] = ANIMALS;
   questions: Question[] = [];
   
   constructor(public firebase: FirebaseService) {

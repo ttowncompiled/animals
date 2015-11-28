@@ -23,11 +23,22 @@ var FirebaseService = (function () {
     };
     FirebaseService.prototype.observeChanges = function (group, ext, question, animal) {
         var _this = this;
-        var child = ext + "/" + FirebaseService.questionFormat(question) + "/" + animal;
+        var child = ext + "/" + FirebaseService.questionFormat(question) + "/";
         group.valueChanges
             .debounceTime(500)
             .subscribe(function (value) {
-            _this.dataRef.child(child).update(group.value);
+            if (group.value.name != animal) {
+                _this.dataRef.child(child + animal).remove(function (error) {
+                    if (error != null) {
+                        console.error(error);
+                        return;
+                    }
+                    _this.dataRef.child(child + group.value.name).set(group.value);
+                });
+            }
+            else {
+                _this.dataRef.child(child + animal).update(group.value);
+            }
         });
     };
     FirebaseService.prototype.onChild = function (ext) {
