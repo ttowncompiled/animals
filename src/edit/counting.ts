@@ -42,18 +42,20 @@ export class CountingComponent {
         var counter: number = 0;
         return Rx.Observable.from(qs)
           .flatMap((q: CountingQ) => {
+            counter++;
             return Rx.Observable.from(Object.keys(q))
               .map((animal: string) => q[animal])
               .map((pair: AnimalCount) => {
-                return new ControlGroup({
+                var group: ControlGroup = new ControlGroup({
                   name: new Control(pair.name),
                   count: new Control(pair.count)
                 });
+                this.firebase.observeChanges(group, CountingComponent.CHILD, counter, pair.name);
+                return group;
               })
               .toArray();
           })
           .map((groups: ControlGroup[]) => {
-            counter++;
             return { value: counter, animals: groups }
           })
           .toArray();

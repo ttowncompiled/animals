@@ -28,6 +28,15 @@ var FirebaseService = (function () {
         }
         return name;
     };
+    FirebaseService.prototype.observeChanges = function (group, ext, question, animal) {
+        var _this = this;
+        var child = ext + "/" + FirebaseService.questionFormat(question) + "/" + animal;
+        group.valueChanges
+            .debounceTime(500)
+            .subscribe(function (value) {
+            _this.dataRef.child(child).update(group.value);
+        });
+    };
     FirebaseService.prototype.onChild = function (child) {
         var _this = this;
         return Rx.Observable.create(function (observer) {

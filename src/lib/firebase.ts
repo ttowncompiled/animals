@@ -1,5 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts" />
-import { Injectable } from 'angular2/angular2';
+import { ControlGroup, Injectable } from 'angular2/angular2';
 
 @Injectable()
 export class FirebaseService {
@@ -22,6 +22,15 @@ export class FirebaseService {
   
   constructor() {
     this.dataRef = new Firebase('https://animals.firebaseIO.com');
+  }
+  
+  public observeChanges(group: ControlGroup, ext: string, question: number, animal: string): void {
+    var child: string = `${ ext }/${ FirebaseService.questionFormat(question) }/${ animal }`;
+    group.valueChanges
+      .debounceTime(500)
+      .subscribe((value: any) => {
+        this.dataRef.child(child).update(group.value);
+      });
   }
   
   public onChild(child: string): Rx.Observable<any> {
