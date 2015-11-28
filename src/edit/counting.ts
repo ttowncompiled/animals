@@ -1,5 +1,13 @@
 /// <reference path="../lib/types.d.ts" />
-import { Component, Control, ControlGroup, NgFor, View, FORM_DIRECTIVES } from 'angular2/angular2';
+import {
+  FORM_DIRECTIVES,
+  Component,
+  Control,
+  ControlGroup,
+  NgFor,
+  View,
+  ViewEncapsulation
+} from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
 declare var Rx;
 
@@ -12,7 +20,7 @@ interface Question {
   selector: 'counting'
 })
 @View({
-  directives: [NgFor, FORM_DIRECTIVES],
+  directives: [FORM_DIRECTIVES, NgFor],
   template: `
     <p>counting</p>
     <p>questions</p>
@@ -30,7 +38,8 @@ interface Question {
       </li>
       <button type="button">add question</button>
     </ul>
-  `
+  `,
+  encapsulation: ViewEncapsulation.None
 })
 export class CountingComponent {
   static CHILD: string = 'counting';

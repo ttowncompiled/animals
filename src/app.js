@@ -23,7 +23,8 @@ var AppComponent = (function () {
         }),
         angular2_1.View({
             directives: [router_1.ROUTER_DIRECTIVES],
-            template: "\n    <a [router-link]=\"['/Counting']\">Counting</a>\n    <router-outlet></router-outlet>\n  "
+            template: "\n    <a [router-link]=\"['/Counting']\">Counting</a>\n    <router-outlet></router-outlet>\n  ",
+            encapsulation: angular2_1.ViewEncapsulation.None
         }),
         router_1.RouteConfig([
             { path: '/', redirectTo: '/counting' },

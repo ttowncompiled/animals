@@ -1,4 +1,4 @@
-import { bind, bootstrap, Component, View } from 'angular2/angular2';
+import { bind, bootstrap, Component, View, ViewEncapsulation } from 'angular2/angular2';
 import {
   APP_BASE_HREF,
   ROUTER_BINDINGS,
@@ -20,7 +20,8 @@ import { FirebaseService } from './lib/firebase';
   template: `
     <a [router-link]="['/Counting']">Counting</a>
     <router-outlet></router-outlet>
-  `
+  `,
+  encapsulation: ViewEncapsulation.None
 })
 @RouteConfig([
   { path: '/', redirectTo: '/counting' },
