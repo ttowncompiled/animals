@@ -4,6 +4,11 @@ import { Component, Control, ControlGroup, NgFor, View, FORM_DIRECTIVES } from '
 import { FirebaseService } from '../lib/firebase';
 declare var Rx;
 
+interface Question {
+  value: number;
+  animals: ControlGroup[];
+}
+
 @Component({
   selector: 'counting'
 })
@@ -16,9 +21,7 @@ declare var Rx;
       <li *ng-for="#q of questions">
         <p>question: {{ q.value }}</p>
         <div *ng-for="#animal of q.animals">
-          hello
           <form [ng-form-model]="animal">
-            form
             <input type="text" [ng-form-control]="animal.controls['name']">
             <input type="text" [ng-form-control]="animal.controls['count']">
           </form>
@@ -31,23 +34,14 @@ declare var Rx;
   `
 })
 export class CountingComponent {
-  questions: CountingQ[] = [];
+  questions: Question[] = [];
   
   constructor(public firebase: FirebaseService) {
-    Rx.Observable.create((observer: Rx.Observer<any>) => {
-        this.firebase.dataRef.child('counting').on('value', (snapshot: FirebaseDataSnapshot) => {
-          observer.onNext(snapshot.val());
-        });
-      })
-      .flatMap((val: any) => {
-        return Rx.Observable.from(Object.keys(val).sort())
-          .map((key: string) => val[key])
-          .toArray();
-      })
-      .flatMap((qs: {[animal: string]: AnimalCount}[]) => {
+    this.firebase.onChild('counting')
+      .flatMap((qs: CountingQ[]) => {
         var counter: number = 0;
         return Rx.Observable.from(qs)
-          .flatMap((q: {[animal: string]: AnimalCount}) => {
+          .flatMap((q: CountingQ) => {
             return Rx.Observable.from(Object.keys(q))
               .map((animal: string) => q[animal])
               .map((pair: AnimalCount) => {
@@ -59,13 +53,12 @@ export class CountingComponent {
               .toArray();
           })
           .map((groups: ControlGroup[]) => {
-            console.log(groups);
             counter++;
             return { value: counter, animals: groups }
           })
           .toArray();
       })
-      .subscribeOnNext((questions: CountingQ[]) => {
+      .subscribeOnNext((questions: Question[]) => {
         this.questions = questions;
       });
   }

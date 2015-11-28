@@ -1,6 +1,6 @@
+/// <reference path="../../typings/tsd.d.ts" />
 interface CountingQ {
-  value: number;
-  animals: AnimalCount[];
+  [animal: string]: AnimalCount;
 }
 interface AnimalCount {
   name: string;

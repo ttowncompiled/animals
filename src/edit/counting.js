@@ -18,16 +18,7 @@ var CountingComponent = (function () {
         var _this = this;
         this.firebase = firebase;
         this.questions = [];
-        Rx.Observable.create(function (observer) {
-            _this.firebase.dataRef.child('counting').on('value', function (snapshot) {
-                observer.onNext(snapshot.val());
-            });
-        })
-            .flatMap(function (val) {
-            return Rx.Observable.from(Object.keys(val).sort())
-                .map(function (key) { return val[key]; })
-                .toArray();
-        })
+        this.firebase.onChild('counting')
             .flatMap(function (qs) {
             var counter = 0;
             return Rx.Observable.from(qs)
@@ -43,7 +34,6 @@ var CountingComponent = (function () {
                     .toArray();
             })
                 .map(function (groups) {
-                console.log(groups);
                 counter++;
                 return { value: counter, animals: groups };
             })

@@ -24,6 +24,19 @@ export class FirebaseService {
     this.dataRef = new Firebase('https://animals.firebaseIO.com');
   }
   
+  public onChild(child: string): Rx.Observable<any> {
+    return Rx.Observable.create((observer: Rx.Observer<any>) => {
+        this.dataRef.child(child).on('value', (snapshot: FirebaseDataSnapshot) => {
+          observer.onNext(snapshot.val());
+        });
+      })
+      .flatMap((val: any) => {
+        return Rx.Observable.from(Object.keys(val).sort())
+          .map((key: string) => val[key])
+          .toArray();
+      });
+  }
+  
   public renumberQuestions(child: string, value: number): void {
     this.dataRef.child(child).once('value', (snapshot: FirebaseDataSnapshot) => {
         var counter: number = value;

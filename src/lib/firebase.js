@@ -28,6 +28,19 @@ var FirebaseService = (function () {
         }
         return name;
     };
+    FirebaseService.prototype.onChild = function (child) {
+        var _this = this;
+        return Rx.Observable.create(function (observer) {
+            _this.dataRef.child(child).on('value', function (snapshot) {
+                observer.onNext(snapshot.val());
+            });
+        })
+            .flatMap(function (val) {
+            return Rx.Observable.from(Object.keys(val).sort())
+                .map(function (key) { return val[key]; })
+                .toArray();
+        });
+    };
     FirebaseService.prototype.renumberQuestions = function (child, value) {
         var _this = this;
         this.dataRef.child(child).once('value', function (snapshot) {
