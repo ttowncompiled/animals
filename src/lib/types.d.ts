@@ -2,6 +2,7 @@
 interface CountingQ {
   [animal: string]: AnimalCount;
 }
+
 interface AnimalCount {
   name: string;
   count: number;
