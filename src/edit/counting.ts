@@ -9,7 +9,7 @@ import {
   ViewEncapsulation
 } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
-import { ANIMALS } from '../lib/lib';
+import { ANIMALS, capitalize } from '../lib/lib';
 declare var Rx;
 
 interface Question {
@@ -31,7 +31,7 @@ interface Question {
         <div *ng-for="#animal of q.animals">
           <form [ng-form-model]="animal">
             <select [ng-form-control]="animal.controls['name']">
-              <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ name }}</option>
+              <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
             </select>
             <input type="text" [ng-form-control]="animal.controls['count']">
           </form>
@@ -76,6 +76,10 @@ export class CountingComponent {
       .subscribeOnNext((questions: Question[]) => {
         this.questions = questions;
       });
+  }
+  
+  capitalize(name: string): string {
+    return capitalize(name);
   }
   
   remove(value: number): void {

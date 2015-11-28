@@ -46,6 +46,9 @@ var CountingComponent = (function () {
             _this.questions = questions;
         });
     }
+    CountingComponent.prototype.capitalize = function (name) {
+        return lib_1.capitalize(name);
+    };
     CountingComponent.prototype.remove = function (value) {
         this.firebase.removeQuestion(CountingComponent.CHILD, value);
     };
@@ -56,7 +59,7 @@ var CountingComponent = (function () {
         }),
         angular2_1.View({
             directives: [angular2_1.FORM_DIRECTIVES, angular2_1.NgFor],
-            template: "\n    <p>counting</p>\n    <p>questions</p>\n    <ul>\n      <li *ng-for=\"#q of questions\">\n        <p>question: {{ q.value }}</p>\n        <div *ng-for=\"#animal of q.animals\">\n          <form [ng-form-model]=\"animal\">\n            <select [ng-form-control]=\"animal.controls['name']\">\n              <option *ng-for=\"#name of ANIMAL_NAMES\" [value]=\"name\">{{ name }}</option>\n            </select>\n            <input type=\"text\" [ng-form-control]=\"animal.controls['count']\">\n          </form>\n        </div>\n        <button type=\"button\">add animal</button>\n        <button type=\"button\" (click)=\"remove(q.value)\">remove question</button>\n      </li>\n      <button type=\"button\">add question</button>\n    </ul>\n  ",
+            template: "\n    <p>counting</p>\n    <p>questions</p>\n    <ul>\n      <li *ng-for=\"#q of questions\">\n        <p>question: {{ q.value }}</p>\n        <div *ng-for=\"#animal of q.animals\">\n          <form [ng-form-model]=\"animal\">\n            <select [ng-form-control]=\"animal.controls['name']\">\n              <option *ng-for=\"#name of ANIMAL_NAMES\" [value]=\"name\">{{ capitalize(name) }}</option>\n            </select>\n            <input type=\"text\" [ng-form-control]=\"animal.controls['count']\">\n          </form>\n        </div>\n        <button type=\"button\">add animal</button>\n        <button type=\"button\" (click)=\"remove(q.value)\">remove question</button>\n      </li>\n      <button type=\"button\">add question</button>\n    </ul>\n  ",
             encapsulation: angular2_1.ViewEncapsulation.None
         }), 
         __metadata('design:paramtypes', [firebase_1.FirebaseService])

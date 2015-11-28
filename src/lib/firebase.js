@@ -25,7 +25,7 @@ var FirebaseService = (function () {
         var _this = this;
         var child = ext + "/" + FirebaseService.questionFormat(question) + "/";
         group.valueChanges
-            .debounceTime(500)
+            .debounceTime(100)
             .subscribe(function (value) {
             if (group.value.name != animal) {
                 _this.dataRef.child(child + animal).remove(function (error) {

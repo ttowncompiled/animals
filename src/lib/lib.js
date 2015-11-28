@@ -48,3 +48,7 @@ function pluralize(name) {
     return name;
 }
 exports.pluralize = pluralize;
+function capitalize(name) {
+    return name[0].toUpperCase() + name.substring(1);
+}
+exports.capitalize = capitalize;
