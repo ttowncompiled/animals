@@ -1,6 +1,6 @@
 /// <reference path="../lib/types.d.ts" />
 /// <reference path="../../typings/tsd.d.ts" />
-import { Component, NgFor, View, FORM_DIRECTIVES } from 'angular2/angular2';
+import { Component, Control, ControlGroup, NgFor, View, FORM_DIRECTIVES } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
 declare var Rx;
 
@@ -15,12 +15,14 @@ declare var Rx;
     <ul>
       <li *ng-for="#q of questions">
         <p>question: {{ q.value }}</p>
-        <form #f="form">
-          <div *ng-for="#animal of q.animals">
-            <input type="text" value="{{ animal.name }}">
-            <input type="text" value="{{ animal.count }}">
-          </div>
-        </form>
+        <div *ng-for="#animal of q.animals">
+          hello
+          <form [ng-form-model]="animal">
+            form
+            <input type="text" [ng-form-control]="animal.controls['name']">
+            <input type="text" [ng-form-control]="animal.controls['count']">
+          </form>
+        </div>
         <button type="button">add animal</button>
         <button type="button" (click)="remove(q.value)">remove question</button>
       </li>
@@ -48,11 +50,18 @@ export class CountingComponent {
           .flatMap((q: {[animal: string]: AnimalCount}) => {
             return Rx.Observable.from(Object.keys(q))
               .map((animal: string) => q[animal])
+              .map((pair: AnimalCount) => {
+                return new ControlGroup({
+                  name: new Control(pair.name),
+                  count: new Control(pair.count)
+                });
+              })
               .toArray();
           })
-          .map((pairs: AnimalCount[]) => {
+          .map((groups: ControlGroup[]) => {
+            console.log(groups);
             counter++;
-            return { value: counter, animals: pairs }
+            return { value: counter, animals: groups }
           })
           .toArray();
       })

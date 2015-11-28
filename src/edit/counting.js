@@ -34,11 +34,18 @@ var CountingComponent = (function () {
                 .flatMap(function (q) {
                 return Rx.Observable.from(Object.keys(q))
                     .map(function (animal) { return q[animal]; })
+                    .map(function (pair) {
+                    return new angular2_1.ControlGroup({
+                        name: new angular2_1.Control(pair.name),
+                        count: new angular2_1.Control(pair.count)
+                    });
+                })
                     .toArray();
             })
-                .map(function (pairs) {
+                .map(function (groups) {
+                console.log(groups);
                 counter++;
-                return { value: counter, animals: pairs };
+                return { value: counter, animals: groups };
             })
                 .toArray();
         })
@@ -62,7 +69,7 @@ var CountingComponent = (function () {
         }),
         angular2_1.View({
             directives: [angular2_1.NgFor, angular2_1.FORM_DIRECTIVES],
-            template: "\n    <p>counting</p>\n    <p>questions</p>\n    <ul>\n      <li *ng-for=\"#q of questions\">\n        <p>question: {{ q.value }}</p>\n        <form #f=\"form\">\n          <div *ng-for=\"#animal of q.animals\">\n            <input type=\"text\" value=\"{{ animal.name }}\">\n            <input type=\"text\" value=\"{{ animal.count }}\">\n          </div>\n        </form>\n        <button type=\"button\">add animal</button>\n        <button type=\"button\" (click)=\"remove(q.value)\">remove question</button>\n      </li>\n      <button type=\"button\">add question</button>\n    </ul>\n  "
+            template: "\n    <p>counting</p>\n    <p>questions</p>\n    <ul>\n      <li *ng-for=\"#q of questions\">\n        <p>question: {{ q.value }}</p>\n        <div *ng-for=\"#animal of q.animals\">\n          hello\n          <form [ng-form-model]=\"animal\">\n            form\n            <input type=\"text\" [ng-form-control]=\"animal.controls['name']\">\n            <input type=\"text\" [ng-form-control]=\"animal.controls['count']\">\n          </form>\n        </div>\n        <button type=\"button\">add animal</button>\n        <button type=\"button\" (click)=\"remove(q.value)\">remove question</button>\n      </li>\n      <button type=\"button\">add question</button>\n    </ul>\n  "
         }), 
         __metadata('design:paramtypes', [firebase_1.FirebaseService])
     ], CountingComponent);
