@@ -1,5 +1,4 @@
 /// <reference path="../lib/types.d.ts" />
-/// <reference path="../../typings/tsd.d.ts" />
 import { Component, Control, ControlGroup, NgFor, View, FORM_DIRECTIVES } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
 declare var Rx;
@@ -34,10 +33,11 @@ interface Question {
   `
 })
 export class CountingComponent {
+  static CHILD: string = 'counting';
   questions: Question[] = [];
   
   constructor(public firebase: FirebaseService) {
-    this.firebase.onChild('counting')
+    this.firebase.onChild(CountingComponent.CHILD)
       .flatMap((qs: CountingQ[]) => {
         var counter: number = 0;
         return Rx.Observable.from(qs)
@@ -64,12 +64,13 @@ export class CountingComponent {
   }
   
   remove(value: number): void {
-    this.firebase.dataRef.child(`counting/${ FirebaseService.questionFormat(value) }`).remove((error: any) => {
+    var child: string = `${ CountingComponent.CHILD }/${ FirebaseService.questionFormat(value) }`;
+    this.firebase.dataRef.child(child).remove((error: any) => {
       if (error != null) {
-        console.log("error");
+        console.error(error);
         return;
       }
-      this.firebase.renumberQuestions('counting', value);
+      this.firebase.renumberQuestions(CountingComponent.CHILD, value);
     });
   }
 }
