@@ -33,9 +33,9 @@ export class FirebaseService {
       });
   }
   
-  public onChild(child: string): Rx.Observable<any> {
+  public onChild(ext: string): Rx.Observable<any> {
     return Rx.Observable.create((observer: Rx.Observer<any>) => {
-        this.dataRef.child(child).on('value', (snapshot: FirebaseDataSnapshot) => {
+        this.dataRef.child(ext).on('value', (snapshot: FirebaseDataSnapshot) => {
           observer.onNext(snapshot.val());
         });
       })
@@ -57,20 +57,20 @@ export class FirebaseService {
     });
   }
   
-  public renumberQuestions(child: string, value: number): void {
-    this.dataRef.child(child).once('value', (snapshot: FirebaseDataSnapshot) => {
-        var counter: number = value;
-        var val: any = snapshot.val();
-        var newVal: any = {};
-        Object.keys(val).sort().forEach((key: string) => {
-          if (key > `${ FirebaseService.questionFormat(counter) }`) {
-            newVal[`${ FirebaseService.questionFormat(counter) }`] = val[key];
-            counter++;
-          } else {
-            newVal[key] = val[key];
-          }
-        });
-        this.dataRef.child('counting').set(newVal);
+  public renumberQuestions(ext: string, value: number): void {
+    this.dataRef.child(ext).once('value', (snapshot: FirebaseDataSnapshot) => {
+      var counter: number = value;
+      var val: any = snapshot.val();
+      var newVal: any = {};
+      Object.keys(val).sort().forEach((key: string) => {
+        if (key > `${ FirebaseService.questionFormat(counter) }`) {
+          newVal[`${ FirebaseService.questionFormat(counter) }`] = val[key];
+          counter++;
+        } else {
+          newVal[key] = val[key];
+        }
       });
+      this.dataRef.child(ext).set(newVal);
+    });
   }
 }

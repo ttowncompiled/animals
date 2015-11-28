@@ -19,9 +19,10 @@ var CountingComponent = (function () {
         this.questions = [];
         this.firebase.onChild(CountingComponent.CHILD)
             .flatMap(function (qs) {
-            var counter = 1;
+            var counter = 0;
             return Rx.Observable.from(qs)
                 .flatMap(function (q) {
+                counter++;
                 return Rx.Observable.from(Object.keys(q))
                     .map(function (animal) { return q[animal]; })
                     .map(function (pair) {
@@ -35,9 +36,7 @@ var CountingComponent = (function () {
                     .toArray();
             })
                 .map(function (groups) {
-                var q = { value: counter, animals: groups };
-                counter++;
-                return q;
+                return { value: counter, animals: groups };
             })
                 .toArray();
         })
@@ -46,15 +45,7 @@ var CountingComponent = (function () {
         });
     }
     CountingComponent.prototype.remove = function (value) {
-        var _this = this;
-        var child = CountingComponent.CHILD + "/" + firebase_1.FirebaseService.questionFormat(value);
-        this.firebase.dataRef.child(child).remove(function (error) {
-            if (error != null) {
-                console.error(error);
-                return;
-            }
-            _this.firebase.renumberQuestions(CountingComponent.CHILD, value);
-        });
+        this.firebase.removeQuestion(CountingComponent.CHILD, value);
     };
     CountingComponent.CHILD = 'counting';
     CountingComponent = __decorate([

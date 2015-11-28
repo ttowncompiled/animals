@@ -37,10 +37,10 @@ var FirebaseService = (function () {
             _this.dataRef.child(child).update(group.value);
         });
     };
-    FirebaseService.prototype.onChild = function (child) {
+    FirebaseService.prototype.onChild = function (ext) {
         var _this = this;
         return Rx.Observable.create(function (observer) {
-            _this.dataRef.child(child).on('value', function (snapshot) {
+            _this.dataRef.child(ext).on('value', function (snapshot) {
                 observer.onNext(snapshot.val());
             });
         })
@@ -50,9 +50,20 @@ var FirebaseService = (function () {
                 .toArray();
         });
     };
-    FirebaseService.prototype.renumberQuestions = function (child, value) {
+    FirebaseService.prototype.removeQuestion = function (ext, question) {
         var _this = this;
-        this.dataRef.child(child).once('value', function (snapshot) {
+        var child = ext + "/" + FirebaseService.questionFormat(question);
+        this.dataRef.child(child).remove(function (error) {
+            if (error != null) {
+                console.error(error);
+                return;
+            }
+            _this.renumberQuestions(ext, question);
+        });
+    };
+    FirebaseService.prototype.renumberQuestions = function (ext, value) {
+        var _this = this;
+        this.dataRef.child(ext).once('value', function (snapshot) {
             var counter = value;
             var val = snapshot.val();
             var newVal = {};
@@ -65,7 +76,7 @@ var FirebaseService = (function () {
                     newVal[key] = val[key];
                 }
             });
-            _this.dataRef.child('counting').set(newVal);
+            _this.dataRef.child(ext).set(newVal);
         });
     };
     FirebaseService = __decorate([
