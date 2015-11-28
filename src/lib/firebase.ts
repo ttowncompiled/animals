@@ -46,6 +46,17 @@ export class FirebaseService {
       });
   }
   
+  public removeQuestion(ext: string, question: number): void {
+    var child: string = `${ ext }/${ FirebaseService.questionFormat(question) }`;
+    this.dataRef.child(child).remove((error: any) => {
+      if (error != null) {
+        console.error(error);
+        return;
+      }
+      this.renumberQuestions(ext, question);
+    });
+  }
+  
   public renumberQuestions(child: string, value: number): void {
     this.dataRef.child(child).once('value', (snapshot: FirebaseDataSnapshot) => {
         var counter: number = value;

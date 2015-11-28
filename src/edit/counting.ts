@@ -66,13 +66,6 @@ export class CountingComponent {
   }
   
   remove(value: number): void {
-    var child: string = `${ CountingComponent.CHILD }/${ FirebaseService.questionFormat(value) }`;
-    this.firebase.dataRef.child(child).remove((error: any) => {
-      if (error != null) {
-        console.error(error);
-        return;
-      }
-      this.firebase.renumberQuestions(CountingComponent.CHILD, value);
-    });
+    this.firebase.removeQuestion(CountingComponent.CHILD, value);
   }
 }
