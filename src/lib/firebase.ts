@@ -24,7 +24,7 @@ export class FirebaseService {
   public observeChanges(group: ControlGroup, ext: string, question: number, animal: string): void {
     var child: string = `${ ext }/${ FirebaseService.questionFormat(question) }/`;
     group.valueChanges
-      .debounceTime(250)
+      .debounceTime(500)
       .subscribe((value: any) => {
         if (group.value.name != animal) {
           this.dataRef.child(child + animal).remove((error: any) => {
@@ -51,6 +51,15 @@ export class FirebaseService {
           .map((key: string) => val[key])
           .toArray();
       });
+  }
+  
+  public removeAnimal(ext: string, question: number, animal: string): void {
+    var child: string = `${ ext }/${ FirebaseService.questionFormat(question) }/${ animal }`;
+    this.dataRef.child(child).remove((error: any) => {
+      if (error != null) {
+        console.error(error);
+      }
+    })
   }
   
   public removeQuestion(ext: string, question: number): void {

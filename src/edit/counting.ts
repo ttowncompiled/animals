@@ -35,13 +35,14 @@ interface Question {
               <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
             </select>
             <input type="text" [ng-form-control]="animal.controls['count']">
+            <button type="button" (click)="removeAnimal(q.value, animal.controls['name'].value)">remove animal</button>
           </form>
         </div>
         <select [ng-form-control]="q.new_animal">
           <option value="none" selected>None</option>
           <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
         </select>
-        <button type="button" (click)="remove(q.value)">remove question</button>
+        <button type="button" (click)="removeQuestion(q.value)">remove question</button>
       </li>
       <button type="button">add question</button>
     </ul>
@@ -95,7 +96,11 @@ export class CountingComponent {
     });
   }
   
-  remove(value: number): void {
-    this.firebase.removeQuestion(CountingComponent.CHILD, value);
+  removeAnimal(question: number, name: string): void {
+    this.firebase.removeAnimal(CountingComponent.CHILD, question, name);
+  }
+  
+  removeQuestion(question: number): void {
+    this.firebase.removeQuestion(CountingComponent.CHILD, question);
   }
 }

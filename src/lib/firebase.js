@@ -58,6 +58,14 @@ var FirebaseService = (function () {
                 .toArray();
         });
     };
+    FirebaseService.prototype.removeAnimal = function (ext, question, animal) {
+        var child = ext + "/" + FirebaseService.questionFormat(question) + "/" + animal;
+        this.dataRef.child(child).remove(function (error) {
+            if (error != null) {
+                console.error(error);
+            }
+        });
+    };
     FirebaseService.prototype.removeQuestion = function (ext, question) {
         var _this = this;
         var child = ext + "/" + FirebaseService.questionFormat(question);
