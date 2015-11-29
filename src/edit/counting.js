@@ -17,7 +17,7 @@ var CountingComponent = (function () {
     function CountingComponent(firebase) {
         var _this = this;
         this.firebase = firebase;
-        this.ANIMAL_NAMES = lib_1.ANIMALS;
+        this.ANIMAL_NAMES = lib_1.ANIMALS.sort();
         this.questions = [];
         this.new_question = new angular2_1.Control("");
         this.firebase.onChild(CountingComponent.CHILD)

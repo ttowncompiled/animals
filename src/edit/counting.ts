@@ -56,7 +56,7 @@ interface Question {
 })
 export class CountingComponent {
   static CHILD: string = 'counting';
-  ANIMAL_NAMES: string[] = ANIMALS;
+  ANIMAL_NAMES: string[] = ANIMALS.sort();
   questions: Question[] = [];
   new_question: Control = new Control("");
   
