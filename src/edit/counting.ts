@@ -25,7 +25,6 @@ interface Question {
   directives: [FORM_DIRECTIVES, NgFor],
   template: `
     <p>counting</p>
-    <p>questions</p>
     <ul>
       <li *ng-for="#q of questions">
         <p>question: {{ q.value }}</p>
