@@ -1,4 +1,4 @@
-import { bind, bootstrap, Component, View, ViewEncapsulation } from 'angular2/angular2';
+import { bind, bootstrap, Component, NgClass, View, ViewEncapsulation } from 'angular2/angular2';
 import {
   APP_BASE_HREF,
   ROUTER_BINDINGS,
@@ -17,7 +17,7 @@ import { FirebaseService } from './lib/firebase';
   selector: 'app'
 })
 @View({
-  directives: [ROUTER_DIRECTIVES],
+  directives: [ROUTER_DIRECTIVES, NgClass],
   templateUrl: 'src/app.html',
   encapsulation: ViewEncapsulation.None
 })
@@ -27,7 +27,13 @@ import { FirebaseService } from './lib/firebase';
   { path: '/what', as: 'What', component: WhatComponent }
 ])
 export class AppComponent {
+  activePage: string = 'counting';
+  
   constructor(public router: Router) {}
+  
+  setActive(page: string): void {
+    this.activePage = page;
+  }
 }
 
 bootstrap(AppComponent, [

@@ -17,13 +17,17 @@ var firebase_1 = require('./lib/firebase');
 var AppComponent = (function () {
     function AppComponent(router) {
         this.router = router;
+        this.activePage = 'counting';
     }
+    AppComponent.prototype.setActive = function (page) {
+        this.activePage = page;
+    };
     AppComponent = __decorate([
         angular2_1.Component({
             selector: 'app'
         }),
         angular2_1.View({
-            directives: [router_1.ROUTER_DIRECTIVES],
+            directives: [router_1.ROUTER_DIRECTIVES, angular2_1.NgClass],
             templateUrl: 'src/app.html',
             encapsulation: angular2_1.ViewEncapsulation.None
         }),
