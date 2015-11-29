@@ -21,11 +21,15 @@ var FirebaseService = (function () {
         }
         return "q" + value;
     };
+    FirebaseService.prototype.addAnimal = function (ext, question, animal, value) {
+        var child = ext + "/" + FirebaseService.questionFormat(question) + "/" + animal;
+        this.dataRef.child(child).set(value);
+    };
     FirebaseService.prototype.observeChanges = function (group, ext, question, animal) {
         var _this = this;
         var child = ext + "/" + FirebaseService.questionFormat(question) + "/";
         group.valueChanges
-            .debounceTime(100)
+            .debounceTime(250)
             .subscribe(function (value) {
             if (group.value.name != animal) {
                 _this.dataRef.child(child + animal).remove(function (error) {

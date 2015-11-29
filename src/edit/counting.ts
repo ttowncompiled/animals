@@ -15,6 +15,7 @@ declare var Rx;
 interface Question {
   value: number;
   animals: ControlGroup[];
+  new_animal: Control;
 }
 
 @Component({
@@ -36,7 +37,10 @@ interface Question {
             <input type="text" [ng-form-control]="animal.controls['count']">
           </form>
         </div>
-        <button type="button">add animal</button>
+        <select [ng-form-control]="q.new_animal">
+          <option value="none" selected>None</option>
+          <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
+        </select>
         <button type="button" (click)="remove(q.value)">remove question</button>
       </li>
       <button type="button">add question</button>
@@ -69,7 +73,9 @@ export class CountingComponent {
               .toArray();
           })
           .map((groups: ControlGroup[]) => {
-            return { value: counter, animals: groups }
+            var control: Control = new Control("");
+            this.listenForNewAnimal(control, counter);
+            return { value: counter, animals: groups, new_animal: control }
           })
           .toArray();
       })
@@ -80,6 +86,13 @@ export class CountingComponent {
   
   capitalize(name: string): string {
     return capitalize(name);
+  }
+  
+  listenForNewAnimal(control: Control, question: number): void {
+    control.valueChanges.subscribe((name: any) => {
+      var value: any = { name: name, count: 0 };
+      this.firebase.addAnimal(CountingComponent.CHILD, question, name, value)
+    });
   }
   
   remove(value: number): void {

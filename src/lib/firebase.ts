@@ -16,10 +16,15 @@ export class FirebaseService {
     this.dataRef = new Firebase('https://animals.firebaseIO.com');
   }
   
+  public addAnimal(ext: string, question: number, animal: string, value: any): void {
+    var child: string = `${ ext }/${ FirebaseService.questionFormat(question) }/${ animal }`;
+    this.dataRef.child(child).set(value);
+  }
+  
   public observeChanges(group: ControlGroup, ext: string, question: number, animal: string): void {
     var child: string = `${ ext }/${ FirebaseService.questionFormat(question) }/`;
     group.valueChanges
-      .debounceTime(100)
+      .debounceTime(250)
       .subscribe((value: any) => {
         if (group.value.name != animal) {
           this.dataRef.child(child + animal).remove((error: any) => {
