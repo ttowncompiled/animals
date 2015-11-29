@@ -23,36 +23,7 @@ interface Question {
 })
 @View({
   directives: [FORM_DIRECTIVES, NgFor],
-  template: `
-    <p>counting</p>
-    <ul>
-      <li *ng-for="#q of questions">
-        <p>question: {{ q.value }}</p>
-        <div *ng-for="#animal of q.animals">
-          <form [ng-form-model]="animal">
-            <select [ng-form-control]="animal.controls['name']">
-              <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
-            </select>
-            <input type="text" [ng-form-control]="animal.controls['count']">
-            <input type="checkbox" [ng-form-control]="animal.controls['flag']">
-            <button type="button" (click)="removeAnimal(q.value, animal.controls['name'].value)">remove animal</button>
-          </form>
-        </div>
-        <select [ng-form-control]="q.new_animal">
-          <option value="none" selected></option>
-          <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
-        </select>
-        <button type="button" (click)="removeQuestion(q.value)">remove question</button>
-      </li>
-      <li>
-        <p>next question:</p>
-        <select [ng-form-control]="new_question">
-          <option value="none" selected></option>
-          <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
-        </select>
-      </li>
-    </ul>
-  `,
+  templateUrl: 'src/edit/counting.html',
   encapsulation: ViewEncapsulation.None
 })
 export class CountingComponent {
