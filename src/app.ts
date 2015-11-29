@@ -17,10 +17,7 @@ import { FirebaseService } from './lib/firebase';
 })
 @View({
   directives: [ROUTER_DIRECTIVES],
-  template: `
-    <a [router-link]="['/Counting']">Counting</a>
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: 'src/app.html',
   encapsulation: ViewEncapsulation.None
 })
 @RouteConfig([

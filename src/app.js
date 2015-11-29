@@ -23,7 +23,7 @@ var AppComponent = (function () {
         }),
         angular2_1.View({
             directives: [router_1.ROUTER_DIRECTIVES],
-            template: "\n    <a [router-link]=\"['/Counting']\">Counting</a>\n    <router-outlet></router-outlet>\n  ",
+            templateUrl: 'src/app.html',
             encapsulation: angular2_1.ViewEncapsulation.None
         }),
         router_1.RouteConfig([
