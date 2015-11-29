@@ -39,7 +39,7 @@ interface Question {
           </form>
         </div>
         <select [ng-form-control]="q.new_animal">
-          <option value="none" selected>None</option>
+          <option value="none" selected></option>
           <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
         </select>
         <button type="button" (click)="removeQuestion(q.value)">remove question</button>
@@ -47,7 +47,7 @@ interface Question {
       <li>
         <p>next question:</p>
         <select [ng-form-control]="new_question">
-          <option value="none" selected>None</option>
+          <option value="none" selected></option>
           <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
         </select>
       </li>
