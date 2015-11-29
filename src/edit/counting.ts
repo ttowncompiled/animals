@@ -89,7 +89,11 @@ export class CountingComponent {
           .toArray();
       })
       .subscribeOnNext((questions: Question[]) => {
-        this.questions = questions;
+        if (questions != null) {
+          this.questions = questions;
+        } else {
+          this.questions = [];
+        }
       });
     this.listenForNewQuestion();
   }

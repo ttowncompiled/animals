@@ -60,6 +60,9 @@ var FirebaseService = (function () {
             });
         })
             .flatMap(function (val) {
+            if (val == null) {
+                return Rx.Observable.just([]);
+            }
             return Rx.Observable.from(Object.keys(val).sort())
                 .map(function (key) { return val[key]; })
                 .toArray();
@@ -90,6 +93,9 @@ var FirebaseService = (function () {
             var counter = value;
             var val = snapshot.val();
             var newVal = {};
+            if (val == null) {
+                return;
+            }
             Object.keys(val).sort().forEach(function (key) {
                 if (key > "" + FirebaseService.questionFormat(counter)) {
                     newVal[("" + FirebaseService.questionFormat(counter))] = val[key];

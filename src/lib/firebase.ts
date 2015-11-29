@@ -55,6 +55,9 @@ export class FirebaseService {
         });
       })
       .flatMap((val: any) => {
+        if (val == null) {
+          return Rx.Observable.just([]);
+        }
         return Rx.Observable.from(Object.keys(val).sort())
           .map((key: string) => val[key])
           .toArray();
@@ -86,6 +89,9 @@ export class FirebaseService {
       var counter: number = value;
       var val: any = snapshot.val();
       var newVal: any = {};
+      if (val == null) {
+        return;
+      }
       Object.keys(val).sort().forEach((key: string) => {
         if (key > `${ FirebaseService.questionFormat(counter) }`) {
           newVal[`${ FirebaseService.questionFormat(counter) }`] = val[key];

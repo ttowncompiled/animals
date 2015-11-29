@@ -47,7 +47,12 @@ var CountingComponent = (function () {
                 .toArray();
         })
             .subscribeOnNext(function (questions) {
-            _this.questions = questions;
+            if (questions != null) {
+                _this.questions = questions;
+            }
+            else {
+                _this.questions = [];
+            }
         });
         this.listenForNewQuestion();
     }
