@@ -6,4 +6,5 @@ interface CountingQ {
 interface AnimalCount {
   name: string;
   count: number;
+  flag: boolean;
 }

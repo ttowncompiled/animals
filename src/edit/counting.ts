@@ -34,6 +34,7 @@ interface Question {
               <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
             </select>
             <input type="text" [ng-form-control]="animal.controls['count']">
+            <input type="checkbox" [ng-form-control]="animal.controls['flag']">
             <button type="button" (click)="removeAnimal(q.value, animal.controls['name'].value)">remove animal</button>
           </form>
         </div>
@@ -71,7 +72,8 @@ export class CountingComponent {
               .map((pair: AnimalCount) => {
                 return  new ControlGroup({
                   name: new Control(pair.name),
-                  count: new Control(pair.count)
+                  count: new Control(pair.count),
+                  flag: new Control(pair.flag)
                 });
               });
           })
@@ -104,7 +106,7 @@ export class CountingComponent {
     control.valueChanges
       .debounceTime(500)
       .subscribe((name: string) => {
-        var value: any = { name: name, count: 0 };
+        var value: any = { name: name, count: 0, flag: false };
         this.firebase.addAnimal(CountingComponent.CHILD, question, name, value)
       });
   }
@@ -113,8 +115,10 @@ export class CountingComponent {
     this.new_question.valueChanges
       .debounceTime(500)
       .subscribe((name: string) => {
-        var value: any = { name: name, count: 0 };
+        var value: any = { name: name, count: 0, flag: true };
         this.firebase.addQuestion(CountingComponent.CHILD, this.questions.length+1, name, value);
+        this.new_question = new Control("");
+        this.listenForNewQuestion();
       });
   }
   
