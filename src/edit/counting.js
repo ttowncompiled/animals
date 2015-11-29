@@ -24,16 +24,15 @@ var CountingComponent = (function () {
             .flatMap(function (qs) {
             var counter = 0;
             return Rx.Observable.from(qs)
-                .flatMap(function (q) {
-                return Rx.Observable.from(Object.keys(q))
+                .map(function (q) {
+                return Object.keys(q)
                     .map(function (animal) { return q[animal]; })
                     .map(function (pair) {
                     return new angular2_1.ControlGroup({
                         name: new angular2_1.Control(pair.name),
                         count: new angular2_1.Control(pair.count)
                     });
-                })
-                    .toArray();
+                });
             })
                 .map(function (groups) {
                 counter++;

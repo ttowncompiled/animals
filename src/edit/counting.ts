@@ -65,16 +65,15 @@ export class CountingComponent {
       .flatMap((qs: CountingQ[]) => {
         var counter: number = 0;
         return Rx.Observable.from(qs)
-          .flatMap((q: CountingQ) => {
-            return Rx.Observable.from(Object.keys(q))
+          .map((q: CountingQ) => {
+            return Object.keys(q)
               .map((animal: string) => q[animal])
               .map((pair: AnimalCount) => {
                 return  new ControlGroup({
                   name: new Control(pair.name),
                   count: new Control(pair.count)
                 });
-              })
-              .toArray();
+              });
           })
           .map((groups: ControlGroup[]) => {
             counter++;
