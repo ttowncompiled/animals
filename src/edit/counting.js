@@ -25,20 +25,21 @@ var CountingComponent = (function () {
             var counter = 0;
             return Rx.Observable.from(qs)
                 .flatMap(function (q) {
-                counter++;
                 return Rx.Observable.from(Object.keys(q))
                     .map(function (animal) { return q[animal]; })
                     .map(function (pair) {
-                    var group = new angular2_1.ControlGroup({
+                    return new angular2_1.ControlGroup({
                         name: new angular2_1.Control(pair.name),
                         count: new angular2_1.Control(pair.count)
                     });
-                    _this.firebase.observeChanges(group, CountingComponent.CHILD, counter, pair.name);
-                    return group;
                 })
                     .toArray();
             })
                 .map(function (groups) {
+                counter++;
+                groups.forEach(function (g) {
+                    _this.firebase.observeChanges(g, CountingComponent.CHILD, counter, g.controls['name'].value);
+                });
                 var control = new angular2_1.Control("");
                 _this.listenForNewAnimal(control, counter);
                 return { value: counter, animals: groups, new_animal: control };

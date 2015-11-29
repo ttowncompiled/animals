@@ -67,20 +67,21 @@ export class CountingComponent {
         var counter: number = 0;
         return Rx.Observable.from(qs)
           .flatMap((q: CountingQ) => {
-            counter++;
             return Rx.Observable.from(Object.keys(q))
               .map((animal: string) => q[animal])
               .map((pair: AnimalCount) => {
-                var group: ControlGroup = new ControlGroup({
+                return  new ControlGroup({
                   name: new Control(pair.name),
                   count: new Control(pair.count)
                 });
-                this.firebase.observeChanges(group, CountingComponent.CHILD, counter, pair.name);
-                return group;
               })
               .toArray();
           })
           .map((groups: ControlGroup[]) => {
+            counter++;
+            groups.forEach((g: ControlGroup) => {
+              this.firebase.observeChanges(g, CountingComponent.CHILD, counter, g.controls['name'].value);
+            })
             var control: Control = new Control("");
             this.listenForNewAnimal(control, counter);
             return { value: counter, animals: groups, new_animal: control }
