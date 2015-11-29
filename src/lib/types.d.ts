@@ -7,4 +7,5 @@ interface AnimalCount {
   name: string;
   count: number;
   flag: boolean;
+  createdAt: number;
 }

@@ -69,11 +69,13 @@ export class CountingComponent {
           .map((q: CountingQ) => {
             return Object.keys(q)
               .map((animal: string) => q[animal])
+              .sort((left: AnimalCount, right: AnimalCount) => left.createdAt - right.createdAt)
               .map((pair: AnimalCount) => {
                 return  new ControlGroup({
                   name: new Control(pair.name),
                   count: new Control(pair.count),
-                  flag: new Control(pair.flag)
+                  flag: new Control(pair.flag),
+                  createdAt: new Control(pair.createdAt)
                 });
               });
           })
@@ -106,7 +108,7 @@ export class CountingComponent {
     control.valueChanges
       .debounceTime(500)
       .subscribe((name: string) => {
-        var value: any = { name: name, count: 0, flag: false };
+        var value: any = { name: name, count: 0, flag: false, createdAt: Firebase.ServerValue.TIMESTAMP };
         this.firebase.addAnimal(CountingComponent.CHILD, question, name, value)
       });
   }
@@ -115,7 +117,7 @@ export class CountingComponent {
     this.new_question.valueChanges
       .debounceTime(500)
       .subscribe((name: string) => {
-        var value: any = { name: name, count: 0, flag: true };
+        var value: any = { name: name, count: 0, flag: true, createdAt: Firebase.ServerValue.TIMESTAMP };
         this.firebase.addQuestion(CountingComponent.CHILD, this.questions.length+1, name, value);
         this.new_question = new Control("");
         this.listenForNewQuestion();

@@ -27,11 +27,13 @@ var CountingComponent = (function () {
                 .map(function (q) {
                 return Object.keys(q)
                     .map(function (animal) { return q[animal]; })
+                    .sort(function (left, right) { return left.createdAt - right.createdAt; })
                     .map(function (pair) {
                     return new angular2_1.ControlGroup({
                         name: new angular2_1.Control(pair.name),
                         count: new angular2_1.Control(pair.count),
-                        flag: new angular2_1.Control(pair.flag)
+                        flag: new angular2_1.Control(pair.flag),
+                        createdAt: new angular2_1.Control(pair.createdAt)
                     });
                 });
             })
@@ -64,7 +66,7 @@ var CountingComponent = (function () {
         control.valueChanges
             .debounceTime(500)
             .subscribe(function (name) {
-            var value = { name: name, count: 0, flag: false };
+            var value = { name: name, count: 0, flag: false, createdAt: Firebase.ServerValue.TIMESTAMP };
             _this.firebase.addAnimal(CountingComponent.CHILD, question, name, value);
         });
     };
@@ -73,7 +75,7 @@ var CountingComponent = (function () {
         this.new_question.valueChanges
             .debounceTime(500)
             .subscribe(function (name) {
-            var value = { name: name, count: 0, flag: true };
+            var value = { name: name, count: 0, flag: true, createdAt: Firebase.ServerValue.TIMESTAMP };
             _this.firebase.addQuestion(CountingComponent.CHILD, _this.questions.length + 1, name, value);
             _this.new_question = new angular2_1.Control("");
             _this.listenForNewQuestion();
