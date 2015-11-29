@@ -21,6 +21,14 @@ export class FirebaseService {
     this.dataRef.child(child).set(value);
   }
   
+  public addQuestion(ext: string, question: number, animal: string, value: any): void {
+    var new_question: any = {};
+    var new_animal: any = {};
+    new_animal[animal] = value;
+    new_question[FirebaseService.questionFormat(question)] = new_animal;
+    this.dataRef.child(ext).update(new_question);
+  }
+  
   public observeChanges(group: ControlGroup, ext: string, question: number, animal: string): void {
     var child: string = `${ ext }/${ FirebaseService.questionFormat(question) }/`;
     group.valueChanges

@@ -44,7 +44,13 @@ interface Question {
         </select>
         <button type="button" (click)="removeQuestion(q.value)">remove question</button>
       </li>
-      <button type="button">add question</button>
+      <li>
+        <p>next question:</p>
+        <select [ng-form-control]="new_question">
+          <option value="none" selected>None</option>
+          <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
+        </select>
+      </li>
     </ul>
   `,
   encapsulation: ViewEncapsulation.None
@@ -53,6 +59,7 @@ export class CountingComponent {
   static CHILD: string = 'counting';
   ANIMAL_NAMES: string[] = ANIMALS;
   questions: Question[] = [];
+  new_question: Control = new Control("");
   
   constructor(public firebase: FirebaseService) {
     this.firebase.onChild(CountingComponent.CHILD)
@@ -83,6 +90,7 @@ export class CountingComponent {
       .subscribeOnNext((questions: Question[]) => {
         this.questions = questions;
       });
+    this.listenForNewQuestion();
   }
   
   capitalize(name: string): string {
@@ -90,10 +98,21 @@ export class CountingComponent {
   }
   
   listenForNewAnimal(control: Control, question: number): void {
-    control.valueChanges.subscribe((name: any) => {
-      var value: any = { name: name, count: 0 };
-      this.firebase.addAnimal(CountingComponent.CHILD, question, name, value)
-    });
+    control.valueChanges
+      .debounceTime(500)
+      .subscribe((name: string) => {
+        var value: any = { name: name, count: 0 };
+        this.firebase.addAnimal(CountingComponent.CHILD, question, name, value)
+      });
+  }
+  
+  listenForNewQuestion(): void {
+    this.new_question.valueChanges
+      .debounceTime(500)
+      .subscribe((name: string) => {
+        var value: any = { name: name, count: 0 };
+        this.firebase.addQuestion(CountingComponent.CHILD, this.questions.length+1, name, value);
+      });
   }
   
   removeAnimal(question: number, name: string): void {

@@ -19,6 +19,7 @@ var CountingComponent = (function () {
         this.firebase = firebase;
         this.ANIMAL_NAMES = lib_1.ANIMALS;
         this.questions = [];
+        this.new_question = new angular2_1.Control("");
         this.firebase.onChild(CountingComponent.CHILD)
             .flatMap(function (qs) {
             var counter = 0;
@@ -47,15 +48,27 @@ var CountingComponent = (function () {
             .subscribeOnNext(function (questions) {
             _this.questions = questions;
         });
+        this.listenForNewQuestion();
     }
     CountingComponent.prototype.capitalize = function (name) {
         return lib_1.capitalize(name);
     };
     CountingComponent.prototype.listenForNewAnimal = function (control, question) {
         var _this = this;
-        control.valueChanges.subscribe(function (name) {
+        control.valueChanges
+            .debounceTime(500)
+            .subscribe(function (name) {
             var value = { name: name, count: 0 };
             _this.firebase.addAnimal(CountingComponent.CHILD, question, name, value);
+        });
+    };
+    CountingComponent.prototype.listenForNewQuestion = function () {
+        var _this = this;
+        this.new_question.valueChanges
+            .debounceTime(500)
+            .subscribe(function (name) {
+            var value = { name: name, count: 0 };
+            _this.firebase.addQuestion(CountingComponent.CHILD, _this.questions.length + 1, name, value);
         });
     };
     CountingComponent.prototype.removeAnimal = function (question, name) {
@@ -71,7 +84,7 @@ var CountingComponent = (function () {
         }),
         angular2_1.View({
             directives: [angular2_1.FORM_DIRECTIVES, angular2_1.NgFor],
-            template: "\n    <p>counting</p>\n    <p>questions</p>\n    <ul>\n      <li *ng-for=\"#q of questions\">\n        <p>question: {{ q.value }}</p>\n        <div *ng-for=\"#animal of q.animals\">\n          <form [ng-form-model]=\"animal\">\n            <select [ng-form-control]=\"animal.controls['name']\">\n              <option *ng-for=\"#name of ANIMAL_NAMES\" [value]=\"name\">{{ capitalize(name) }}</option>\n            </select>\n            <input type=\"text\" [ng-form-control]=\"animal.controls['count']\">\n            <button type=\"button\" (click)=\"removeAnimal(q.value, animal.controls['name'].value)\">remove animal</button>\n          </form>\n        </div>\n        <select [ng-form-control]=\"q.new_animal\">\n          <option value=\"none\" selected>None</option>\n          <option *ng-for=\"#name of ANIMAL_NAMES\" [value]=\"name\">{{ capitalize(name) }}</option>\n        </select>\n        <button type=\"button\" (click)=\"removeQuestion(q.value)\">remove question</button>\n      </li>\n      <button type=\"button\">add question</button>\n    </ul>\n  ",
+            template: "\n    <p>counting</p>\n    <p>questions</p>\n    <ul>\n      <li *ng-for=\"#q of questions\">\n        <p>question: {{ q.value }}</p>\n        <div *ng-for=\"#animal of q.animals\">\n          <form [ng-form-model]=\"animal\">\n            <select [ng-form-control]=\"animal.controls['name']\">\n              <option *ng-for=\"#name of ANIMAL_NAMES\" [value]=\"name\">{{ capitalize(name) }}</option>\n            </select>\n            <input type=\"text\" [ng-form-control]=\"animal.controls['count']\">\n            <button type=\"button\" (click)=\"removeAnimal(q.value, animal.controls['name'].value)\">remove animal</button>\n          </form>\n        </div>\n        <select [ng-form-control]=\"q.new_animal\">\n          <option value=\"none\" selected>None</option>\n          <option *ng-for=\"#name of ANIMAL_NAMES\" [value]=\"name\">{{ capitalize(name) }}</option>\n        </select>\n        <button type=\"button\" (click)=\"removeQuestion(q.value)\">remove question</button>\n      </li>\n      <li>\n        <p>next question:</p>\n        <select [ng-form-control]=\"new_question\">\n          <option value=\"none\" selected>None</option>\n          <option *ng-for=\"#name of ANIMAL_NAMES\" [value]=\"name\">{{ capitalize(name) }}</option>\n        </select>\n      </li>\n    </ul>\n  ",
             encapsulation: angular2_1.ViewEncapsulation.None
         }), 
         __metadata('design:paramtypes', [firebase_1.FirebaseService])
