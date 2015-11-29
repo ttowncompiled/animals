@@ -12,6 +12,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var angular2_1 = require('angular2/angular2');
 var router_1 = require('angular2/router');
 var counting_1 = require('./edit/counting');
+var what_1 = require('./edit/what');
 var firebase_1 = require('./lib/firebase');
 var AppComponent = (function () {
     function AppComponent(router) {
@@ -28,7 +29,8 @@ var AppComponent = (function () {
         }),
         router_1.RouteConfig([
             { path: '/', redirectTo: '/counting' },
-            { path: '/counting', as: 'Counting', component: counting_1.CountingComponent }
+            { path: '/counting', as: 'Counting', component: counting_1.CountingComponent },
+            { path: '/what', as: 'What', component: what_1.WhatComponent }
         ]), 
         __metadata('design:paramtypes', [router_1.Router])
     ], AppComponent);

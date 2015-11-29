@@ -10,6 +10,7 @@ import {
   RouteConfig
 } from 'angular2/router';
 import { CountingComponent } from './edit/counting';
+import { WhatComponent } from './edit/what';
 import { FirebaseService } from './lib/firebase';
 
 @Component({
@@ -22,7 +23,8 @@ import { FirebaseService } from './lib/firebase';
 })
 @RouteConfig([
   { path: '/', redirectTo: '/counting' },
-  { path: '/counting', as: 'Counting', component: CountingComponent }
+  { path: '/counting', as: 'Counting', component: CountingComponent },
+  { path: '/what', as: 'What', component: WhatComponent }
 ])
 export class AppComponent {
   constructor(public router: Router) {}

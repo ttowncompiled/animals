@@ -1,3 +1,5 @@
+import { Control, ControlGroup } from 'angular2/angular2';
+
 export const ANIMALS = [
   'cat',
   'dog',
@@ -21,6 +23,12 @@ export const ANIMALS = [
   'ladybug',
   'caterpillar'
 ];
+
+export interface Question {
+  value: number;
+  animals: ControlGroup[];
+  new_animal: Control;
+}
 
 export function pluralize(name: string): string {
   switch(name) {

@@ -13,33 +13,32 @@ import { ANIMALS, capitalize, Question } from '../lib/lib';
 declare var Rx;
 
 @Component({
-  selector: 'counting'
+  selector: 'what'
 })
 @View({
   directives: [FORM_DIRECTIVES, NgFor],
-  templateUrl: 'src/edit/counting.html',
+  templateUrl: 'src/edit/what.html',
   encapsulation: ViewEncapsulation.None
 })
-export class CountingComponent {
-  static CHILD: string = 'counting';
+export class WhatComponent {
+  static CHILD: string = 'what';
   ANIMAL_NAMES: string[] = ANIMALS.sort();
   questions: Question[] = [];
   new_question: Control = new Control("");
   
   constructor(public firebase: FirebaseService) {
-    this.firebase.onChild(CountingComponent.CHILD)
-      .flatMap((qs: CountingQ[]) => {
+    this.firebase.onChild(WhatComponent.CHILD)
+      .flatMap((qs: WhatQ[]) => {
         var counter: number = 0;
         return Rx.Observable.from(qs)
-          .map((q: CountingQ) => {
+          .map((q: WhatQ) => {
             return Object.keys(q)
               .map((animal: string) => q[animal])
-              .sort((left: AnimalCount, right: AnimalCount) => left.createdAt - right.createdAt)
-              .map((pair: AnimalCount) => {
+              .sort((left: AnimalWhat, right: AnimalWhat) => left.createdAt - right.createdAt)
+              .map((pair: AnimalWhat) => {
                 return  new ControlGroup({
                   name: new Control(pair.name),
-                  count: new Control(pair.count),
-                  flag: new Control(pair.flag),
+                  descr: new Control(pair.descr),
                   createdAt: new Control(pair.createdAt)
                 });
               });
@@ -47,7 +46,7 @@ export class CountingComponent {
           .map((groups: ControlGroup[]) => {
             counter++;
             groups.forEach((g: ControlGroup) => {
-              this.firebase.observeChanges(g, CountingComponent.CHILD, counter, g.controls['name'].value);
+              this.firebase.observeChanges(g, WhatComponent.CHILD, counter, g.controls['name'].value);
             })
             var control: Control = new Control("");
             this.listenForNewAnimal(control, counter);
@@ -73,8 +72,8 @@ export class CountingComponent {
     control.valueChanges
       .debounceTime(500)
       .subscribe((name: string) => {
-        var value: any = { name: name, count: 0, flag: false, createdAt: Firebase.ServerValue.TIMESTAMP };
-        this.firebase.addAnimal(CountingComponent.CHILD, question, name, value)
+        var value: any = { name: name, descr: '', createdAt: Firebase.ServerValue.TIMESTAMP };
+        this.firebase.addAnimal(WhatComponent.CHILD, question, name, value)
       });
   }
   
@@ -82,18 +81,18 @@ export class CountingComponent {
     this.new_question.valueChanges
       .debounceTime(500)
       .subscribe((name: string) => {
-        var value: any = { name: name, count: 0, flag: true, createdAt: Firebase.ServerValue.TIMESTAMP };
-        this.firebase.addQuestion(CountingComponent.CHILD, this.questions.length+1, name, value);
+        var value: any = { name: name, descr: '', createdAt: Firebase.ServerValue.TIMESTAMP };
+        this.firebase.addQuestion(WhatComponent.CHILD, this.questions.length+1, name, value);
         this.new_question = new Control("");
         this.listenForNewQuestion();
       });
   }
   
   removeAnimal(question: number, name: string): void {
-    this.firebase.removeAnimal(CountingComponent.CHILD, question, name);
+    this.firebase.removeAnimal(WhatComponent.CHILD, question, name);
   }
   
   removeQuestion(question: number): void {
-    this.firebase.removeQuestion(CountingComponent.CHILD, question);
+    this.firebase.removeQuestion(WhatComponent.CHILD, question);
   }
 }

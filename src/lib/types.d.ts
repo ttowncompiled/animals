@@ -9,3 +9,13 @@ interface AnimalCount {
   flag: boolean;
   createdAt: number;
 }
+
+interface WhatQ {
+  [animal: string]: AnimalWhat;
+}
+
+interface AnimalWhat {
+  name: string;
+  descr: string;
+  createdAt: number;
+}
