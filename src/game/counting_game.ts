@@ -26,6 +26,8 @@ export class CountingGameComponent {
   questionNumber: number = -1;
   currentQ: GameQ = null;
   finished: boolean = true;
+  total: number = 0;
+  score: number = 0;
   
   constructor(public firebase: FirebaseService) {
     this.firebase.readChild(CountingGameComponent.CHILD)
@@ -66,8 +68,29 @@ export class CountingGameComponent {
     return this.questions.length > 0;
   }
   
+  nextQuestion(): void {
+    this.questionNumber++;
+    if (this.questionNumber > this.questions.length) {
+      this.finished = true;
+      return;
+    }
+    this.currentQ = this.questions[this.questionNumber-1];
+  }
+  
   onSubmit(value: any): void {
-    console.log(value);
+    var total: number = this.currentQ.animals.length;
+    var score: number = 0;
+    this.currentQ.animals.forEach((animal: AnimalCount) => {
+      if (value[animal.name] == animal.count) {
+        score++;
+      }
+    });
+    if (score == total) {
+      console.log('correct');
+    }
+    this.total += total;
+    this.score += score;
+    this.nextQuestion();
   }
   
   questionContent(): string {
@@ -86,5 +109,19 @@ export class CountingGameComponent {
     }
     result += `, and ${ pluralize(this.currentQ.animals[this.currentQ.animals.length-1]) }`;
     return result;
+  }
+  
+  spaces(name: string): string[] {
+    var count: number = 0;
+    this.currentQ.animals.forEach((animal: AnimalCount) => {
+      if (animal.name.length > count) {
+        count = animal.name.length;
+      }
+    });
+    var arr: string[] = [];
+    for (var i: number = name.length; i <= count; i++) {
+      arr.push('&nbsp;');
+    }
+    return arr;
   }
 }

@@ -21,6 +21,8 @@ var CountingGameComponent = (function () {
         this.questionNumber = -1;
         this.currentQ = null;
         this.finished = true;
+        this.total = 0;
+        this.score = 0;
         this.firebase.readChild(CountingGameComponent.CHILD)
             .flatMap(function (qs) {
             var counter = 0;
@@ -57,8 +59,28 @@ var CountingGameComponent = (function () {
     CountingGameComponent.prototype.hasQuestions = function () {
         return this.questions.length > 0;
     };
+    CountingGameComponent.prototype.nextQuestion = function () {
+        this.questionNumber++;
+        if (this.questionNumber > this.questions.length) {
+            this.finished = true;
+            return;
+        }
+        this.currentQ = this.questions[this.questionNumber - 1];
+    };
     CountingGameComponent.prototype.onSubmit = function (value) {
-        console.log(value);
+        var total = this.currentQ.animals.length;
+        var score = 0;
+        this.currentQ.animals.forEach(function (animal) {
+            if (value[animal.name] == animal.count) {
+                score++;
+            }
+        });
+        if (score == total) {
+            console.log('correct');
+        }
+        this.total += total;
+        this.score += score;
+        this.nextQuestion();
     };
     CountingGameComponent.prototype.questionContent = function () {
         if (this.currentQ.animals.length < 1) {
@@ -76,6 +98,19 @@ var CountingGameComponent = (function () {
         }
         result += ", and " + lib_1.pluralize(this.currentQ.animals[this.currentQ.animals.length - 1]);
         return result;
+    };
+    CountingGameComponent.prototype.spaces = function (name) {
+        var count = 0;
+        this.currentQ.animals.forEach(function (animal) {
+            if (animal.name.length > count) {
+                count = animal.name.length;
+            }
+        });
+        var arr = [];
+        for (var i = name.length; i < count; i++) {
+            arr.push('&nbsp;');
+        }
+        return arr;
     };
     CountingGameComponent.CHILD = 'counting';
     CountingGameComponent = __decorate([
