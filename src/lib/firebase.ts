@@ -64,6 +64,23 @@ export class FirebaseService {
       });
   }
   
+  public readChild(ext: string): Rx.Observable<any> {
+    return Rx.Observable.create((observer: Rx.Observer<any>) => {
+        this.dataRef.child(ext).once('value', (snapshot: FirebaseDataSnapshot) => {
+            observer.onNext(snapshot.val());
+            observer.onCompleted();
+          });
+      })
+      .flatMap((val: any) => {
+        if (val == null) {
+          return Rx.Observable.just([]);
+        }
+        return Rx.Observable.from(Object.keys(val).sort())
+          .map((key: string) => val[key])
+          .toArray();
+      });
+  }
+  
   public removeAnimal(ext: string, question: number, animal: string): void {
     var child: string = `${ ext }/${ FirebaseService.questionFormat(question) }/${ animal }`;
     this.dataRef.child(child).remove((error: any) => {

@@ -68,6 +68,23 @@ var FirebaseService = (function () {
                 .toArray();
         });
     };
+    FirebaseService.prototype.readChild = function (ext) {
+        var _this = this;
+        return Rx.Observable.create(function (observer) {
+            _this.dataRef.child(ext).once('value', function (snapshot) {
+                observer.onNext(snapshot.val());
+                observer.onCompleted();
+            });
+        })
+            .flatMap(function (val) {
+            if (val == null) {
+                return Rx.Observable.just([]);
+            }
+            return Rx.Observable.from(Object.keys(val).sort())
+                .map(function (key) { return val[key]; })
+                .toArray();
+        });
+    };
     FirebaseService.prototype.removeAnimal = function (ext, question, animal) {
         var child = ext + "/" + FirebaseService.questionFormat(question) + "/" + animal;
         this.dataRef.child(child).remove(function (error) {

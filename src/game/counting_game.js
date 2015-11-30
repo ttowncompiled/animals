@@ -17,9 +17,11 @@ var CountingGameComponent = (function () {
     function CountingGameComponent(firebase) {
         var _this = this;
         this.firebase = firebase;
-        this.ANIMAL_NAMES = lib_1.ANIMALS.sort();
         this.questions = [];
-        this.firebase.onChild(CountingGameComponent.CHILD)
+        this.questionNumber = -1;
+        this.currentQ = null;
+        this.finished = true;
+        this.firebase.readChild(CountingGameComponent.CHILD)
             .flatMap(function (qs) {
             var counter = 0;
             return Rx.Observable.from(qs)
@@ -37,14 +39,29 @@ var CountingGameComponent = (function () {
             .subscribeOnNext(function (questions) {
             if (questions != null) {
                 _this.questions = questions;
+                _this.questionNumber = 1;
+                _this.currentQ = _this.questions[0];
+                _this.finished = false;
             }
             else {
                 _this.questions = [];
+                _this.questionNumber = -1;
+                _this.currentQ = null;
+                _this.finished = true;
             }
         });
     }
+    CountingGameComponent.prototype.hasQuestions = function () {
+        return this.questions.length > 0;
+    };
     CountingGameComponent.prototype.capitalize = function (name) {
         return lib_1.capitalize(name);
+    };
+    CountingGameComponent.prototype.onSubmit = function (value) {
+        console.log(value);
+    };
+    CountingGameComponent.prototype.pluralize = function (name) {
+        return lib_1.pluralize(name);
     };
     CountingGameComponent.CHILD = 'counting';
     CountingGameComponent = __decorate([
@@ -52,7 +69,7 @@ var CountingGameComponent = (function () {
             selector: 'counting-game'
         }),
         angular2_1.View({
-            directives: [angular2_1.NgFor],
+            directives: [angular2_1.FORM_DIRECTIVES, angular2_1.NgFor, angular2_1.NgIf, angular2_1.NgSwitch],
             templateUrl: 'src/game/counting_game.html',
             encapsulation: angular2_1.ViewEncapsulation.None
         }), 
