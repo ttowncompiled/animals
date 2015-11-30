@@ -3,9 +3,23 @@
   <div class="container">
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li [ng-class]="{ active: isHome }"><a [router-link]="['/Home']" (click)="setHome(true)">Games</a></li>
-        <li [ng-class]="{ active: !isHome }"><a>Counting</a></li>
+        <li [ng-class]="{ active: isHome }"><a (click)="setHome()">Games</a></li>
+        <li [ng-class]="{ active: !isHome && activePage == 'counting' }"><a>Counting</a></li>
       </ul>
+    </div>
+  </div>
+</div>
+
+<div *ng-if="isHome" class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-3 col-md-offset-4">
+            <a type="button" class="btn btn-default" [router-link]="['/Counting']" (click)="route('counting')">Counting</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
