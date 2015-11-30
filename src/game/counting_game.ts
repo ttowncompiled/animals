@@ -4,7 +4,6 @@ import {
   Component,
   NgFor,
   NgIf,
-  NgSwitch,
   View,
   ViewEncapsulation
 } from 'angular2/angular2';
@@ -16,7 +15,7 @@ declare var Rx;
   selector: 'counting-game'
 })
 @View({
-  directives: [FORM_DIRECTIVES, NgFor, NgIf, NgSwitch],
+  directives: [FORM_DIRECTIVES, NgFor, NgIf],
   templateUrl: 'src/game/counting_game.html',
   encapsulation: ViewEncapsulation.None
 })

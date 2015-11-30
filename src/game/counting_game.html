@@ -1,7 +1,7 @@
 <div class="container">
-  
+
   <!-- Question Panel -->
-  <div class="row">
+  <div *ng-if="!finished" class="row">
     <div class="col-md-8 col-md-offset-2">
       <div *ng-if="hasQuestions()" class="panel panel-default">
         <div class="panel-heading">question {{ questionNumber }}</div>
@@ -28,6 +28,11 @@
         </div>
       </div>
     </div>
+  </div>
+  
+  <!-- Finished Panel -->
+  <div *ng-if="finished && hasQuestions()">
+    finished
   </div>
 
 </div>

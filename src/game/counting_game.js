@@ -107,7 +107,7 @@ var CountingGameComponent = (function () {
             }
         });
         var arr = [];
-        for (var i = name.length; i < count; i++) {
+        for (var i = name.length; i <= count; i++) {
             arr.push('&nbsp;');
         }
         return arr;
@@ -118,7 +118,7 @@ var CountingGameComponent = (function () {
             selector: 'counting-game'
         }),
         angular2_1.View({
-            directives: [angular2_1.FORM_DIRECTIVES, angular2_1.NgFor, angular2_1.NgIf, angular2_1.NgSwitch],
+            directives: [angular2_1.FORM_DIRECTIVES, angular2_1.NgFor, angular2_1.NgIf],
             templateUrl: 'src/game/counting_game.html',
             encapsulation: angular2_1.ViewEncapsulation.None
         }), 
