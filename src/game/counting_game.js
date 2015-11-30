@@ -83,20 +83,26 @@ var CountingGameComponent = (function () {
         this.nextQuestion();
     };
     CountingGameComponent.prototype.questionContent = function () {
-        if (this.currentQ.animals.length < 1) {
+        var animals = [];
+        this.currentQ.animals.forEach(function (animal) {
+            if (animal.flag) {
+                animals.push(animal);
+            }
+        });
+        if (animals.length < 1) {
             return '';
         }
-        var result = lib_1.pluralize(this.currentQ.animals[0].name);
-        if (this.currentQ.animals.length == 1) {
+        var result = lib_1.pluralize(animals[0].name);
+        if (animals.length == 1) {
             return result;
         }
-        if (this.currentQ.animals.length == 2) {
-            return result + (" and " + this.currentQ.animals[this.currentQ.animals.length - 1]);
+        if (animals.length == 2) {
+            return result + (" and " + lib_1.pluralize(animals[animals.length - 1].name));
         }
-        for (var i = 1; i < this.currentQ.animals.length - 1; i++) {
-            result += ", " + lib_1.pluralize(this.currentQ.animals[i]);
+        for (var i = 1; i < animals.length - 1; i++) {
+            result += ", " + lib_1.pluralize(animals[i].name);
         }
-        result += ", and " + lib_1.pluralize(this.currentQ.animals[this.currentQ.animals.length - 1]);
+        result += ", and " + lib_1.pluralize(animals[animals.length - 1].name);
         return result;
     };
     CountingGameComponent.prototype.spaces = function (name) {

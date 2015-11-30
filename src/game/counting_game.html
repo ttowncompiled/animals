@@ -8,14 +8,16 @@
         <div class="panel-body">
           <p>Count how many {{ questionContent() }} you see in the picture.</p>
           <form #f="form" (submit)="onSubmit(f.value)">
-            <div *ng-for="#animal of currentQ.animals" class="row" style="margin-bottom:15px;">
-              <div class="col-md-12">
-                <div class="input-group">
-                  <span class="input-group-addon">
-                    {{ animal.name }}
-                    <span *ng-for="#space of spaces(animal.name)">&nbsp;</span>
-                  </span>
-                  <input type="text" ng-control="{{ animal.name }}" placeholder="0" class="form-control">
+            <div *ng-for="#animal of currentQ.animals">
+              <div *ng-if="animal.flag" class="row" style="margin-bottom:15px;">
+                <div class="col-md-12">
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      {{ animal.name }}
+                      <span *ng-for="#space of spaces(animal.name)">&nbsp;</span>
+                    </span>
+                    <input type="text" ng-control="{{ animal.name }}" placeholder="0" class="form-control">
+                  </div>
                 </div>
               </div>
             </div>

@@ -93,20 +93,26 @@ export class CountingGameComponent {
   }
   
   questionContent(): string {
-    if (this.currentQ.animals.length < 1) {
+    var animals: AnimalCount[] = [];
+    this.currentQ.animals.forEach((animal: AnimalCount) => {
+      if (animal.flag) {
+        animals.push(animal);
+      }
+    });
+    if (animals.length < 1) {
       return '';
     }
-    var result: string = pluralize(this.currentQ.animals[0].name);
-    if (this.currentQ.animals.length == 1) {
+    var result: string = pluralize(animals[0].name);
+    if (animals.length == 1) {
       return result;
     }
-    if (this.currentQ.animals.length == 2) {
-      return result + ` and ${ this.currentQ.animals[this.currentQ.animals.length-1] }`;
+    if (animals.length == 2) {
+      return result + ` and ${ pluralize(animals[animals.length-1].name) }`;
     }
-    for (var i: number = 1; i < this.currentQ.animals.length-1; i++) {
-      result += `, ${ pluralize(this.currentQ.animals[i]) }`;
+    for (var i: number = 1; i < animals.length-1; i++) {
+      result += `, ${ pluralize(animals[i].name) }`;
     }
-    result += `, and ${ pluralize(this.currentQ.animals[this.currentQ.animals.length-1]) }`;
+    result += `, and ${ pluralize(animals[animals.length-1].name) }`;
     return result;
   }
   
