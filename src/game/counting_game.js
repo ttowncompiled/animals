@@ -23,6 +23,8 @@ var CountingGameComponent = (function () {
         this.finished = true;
         this.total = 0;
         this.score = 0;
+        this.nextScore = 0;
+        this.addScore = false;
         this.firebase.readChild(CountingGameComponent.CHILD)
             .flatMap(function (qs) {
             var counter = 0;
@@ -60,6 +62,9 @@ var CountingGameComponent = (function () {
         return this.questions.length > 0;
     };
     CountingGameComponent.prototype.nextQuestion = function () {
+        this.score += this.nextScore;
+        this.nextScore = 0;
+        this.addScore = false;
         this.questionNumber++;
         if (this.questionNumber > this.questions.length) {
             this.finished = true;
@@ -75,12 +80,9 @@ var CountingGameComponent = (function () {
                 score++;
             }
         });
-        if (score == total) {
-            console.log('correct');
-        }
+        this.addScore = true;
         this.total += total;
-        this.score += score;
-        this.nextQuestion();
+        this.nextScore = score;
     };
     CountingGameComponent.prototype.questionContent = function () {
         var animals = [];

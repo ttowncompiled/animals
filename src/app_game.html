@@ -3,7 +3,7 @@
   <div class="container">
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li [ng-class]="{ active: isHome }"><a (click)="setHome()">Games</a></li>
+        <li [ng-class]="{ active: isHome }"><a [router-link]="['/Home']" (click)="setHome()">Games</a></li>
         <li [ng-class]="{ active: !isHome && activePage == 'counting' }"><a>Counting</a></li>
       </ul>
     </div>

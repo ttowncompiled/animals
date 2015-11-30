@@ -27,6 +27,8 @@ export class CountingGameComponent {
   finished: boolean = true;
   total: number = 0;
   score: number = 0;
+  nextScore: number = 0;
+  addScore: boolean = false;
   
   constructor(public firebase: FirebaseService) {
     this.firebase.readChild(CountingGameComponent.CHILD)
@@ -68,6 +70,9 @@ export class CountingGameComponent {
   }
   
   nextQuestion(): void {
+    this.score += this.nextScore;
+    this.nextScore = 0;
+    this.addScore = false;
     this.questionNumber++;
     if (this.questionNumber > this.questions.length) {
       this.finished = true;
@@ -84,12 +89,9 @@ export class CountingGameComponent {
         score++;
       }
     });
-    if (score == total) {
-      console.log('correct');
-    }
+    this.addScore = true;
     this.total += total;
-    this.score += score;
-    this.nextQuestion();
+    this.nextScore = score;
   }
   
   questionContent(): string {
