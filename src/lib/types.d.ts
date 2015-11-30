@@ -19,3 +19,8 @@ interface AnimalWhat {
   descr: string;
   createdAt: number;
 }
+
+interface GameQ {
+  value: number;
+  animals: any[];
+}

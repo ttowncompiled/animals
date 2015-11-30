@@ -22,13 +22,14 @@
       System.config({
         packages: {
           "src/": { defaultExtension: "js" },
-          "src/edit": { defaultExtension: "js" }
+          "src/edit": { defaultExtension: "js" },
+          "src/game": { defaultExtension: "js" }
         }
       });
-      System.import("src/app_edit");
+      System.import("src/app_game");
     </script>
   </head>
   <body>
-    <app-edit></app-edit>
+    <app-game></app-game>
   </body>
 </html>
