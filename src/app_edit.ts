@@ -14,11 +14,11 @@ import { WhatComponent } from './edit/what';
 import { FirebaseService } from './lib/firebase';
 
 @Component({
-  selector: 'app'
+  selector: 'app-edit'
 })
 @View({
   directives: [ROUTER_DIRECTIVES, NgClass],
-  templateUrl: 'src/app.html',
+  templateUrl: 'src/app_edit.html',
   encapsulation: ViewEncapsulation.None
 })
 @RouteConfig([
@@ -26,7 +26,7 @@ import { FirebaseService } from './lib/firebase';
   { path: '/counting', as: 'Counting', component: CountingComponent },
   { path: '/what', as: 'What', component: WhatComponent }
 ])
-export class AppComponent {
+export class AppEditComponent {
   activePage: string = 'counting';
   
   constructor(public router: Router) {}
@@ -36,9 +36,9 @@ export class AppComponent {
   }
 }
 
-bootstrap(AppComponent, [
+bootstrap(AppEditComponent, [
   ROUTER_BINDINGS,
-  bind(ROUTER_PRIMARY_COMPONENT).toValue(AppComponent),
+  bind(ROUTER_PRIMARY_COMPONENT).toValue(AppEditComponent),
   bind(APP_BASE_HREF).toValue('/'),
   bind(LocationStrategy).toClass(HashLocationStrategy),
   FirebaseService
