@@ -3,10 +3,10 @@
   <!-- Question Panel -->
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <div class="panel panel-default">
+      <div *ng-if="hasQuestions()" class="panel panel-default">
         <div class="panel-heading">question {{ questionNumber }}</div>
         <div class="panel-body">
-          <p>Count the total number of</p>
+          <p>Count how many {{ questionContent() }} you see in the picture.</p>
         </div>
       </div>
     </div>

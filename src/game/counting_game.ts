@@ -58,19 +58,33 @@ export class CountingGameComponent {
       });
   }
   
-  hasQuestions(): boolean {
-    return this.questions.length > 0;
-  }
-  
   capitalize(name: string): string {
     return capitalize(name);
+  }
+  
+  hasQuestions(): boolean {
+    return this.questions.length > 0;
   }
   
   onSubmit(value: any): void {
     console.log(value);
   }
   
-  pluralize(name: string): string {
-    return pluralize(name);
+  questionContent(): string {
+    if (this.currentQ.animals.length < 1) {
+      return '';
+    }
+    var result: string = pluralize(this.currentQ.animals[0].name);
+    if (this.currentQ.animals.length == 1) {
+      return result;
+    }
+    if (this.currentQ.animals.length == 2) {
+      return result + ` and ${ this.currentQ.animals[this.currentQ.animals.length-1] }`;
+    }
+    for (var i: number = 1; i < this.currentQ.animals.length-1; i++) {
+      result += `, ${ pluralize(this.currentQ.animals[i]) }`;
+    }
+    result += `, and ${ pluralize(this.currentQ.animals[this.currentQ.animals.length-1]) }`;
+    return result;
   }
 }

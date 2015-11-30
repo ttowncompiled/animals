@@ -51,17 +51,31 @@ var CountingGameComponent = (function () {
             }
         });
     }
-    CountingGameComponent.prototype.hasQuestions = function () {
-        return this.questions.length > 0;
-    };
     CountingGameComponent.prototype.capitalize = function (name) {
         return lib_1.capitalize(name);
+    };
+    CountingGameComponent.prototype.hasQuestions = function () {
+        return this.questions.length > 0;
     };
     CountingGameComponent.prototype.onSubmit = function (value) {
         console.log(value);
     };
-    CountingGameComponent.prototype.pluralize = function (name) {
-        return lib_1.pluralize(name);
+    CountingGameComponent.prototype.questionContent = function () {
+        if (this.currentQ.animals.length < 1) {
+            return '';
+        }
+        var result = lib_1.pluralize(this.currentQ.animals[0].name);
+        if (this.currentQ.animals.length == 1) {
+            return result;
+        }
+        if (this.currentQ.animals.length == 2) {
+            return result + (" and " + this.currentQ.animals[this.currentQ.animals.length - 1]);
+        }
+        for (var i = 1; i < this.currentQ.animals.length - 1; i++) {
+            result += ", " + lib_1.pluralize(this.currentQ.animals[i]);
+        }
+        result += ", and " + lib_1.pluralize(this.currentQ.animals[this.currentQ.animals.length - 1]);
+        return result;
     };
     CountingGameComponent.CHILD = 'counting';
     CountingGameComponent = __decorate([
