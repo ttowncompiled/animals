@@ -9,6 +9,7 @@ import {
   Router,
   RouteConfig
 } from 'angular2/router';
+import { GameHomeComponent } from './game/home';
 import { CountingGameComponent } from './game/counting_game';
 import { FirebaseService } from './lib/firebase';
 
@@ -21,16 +22,18 @@ import { FirebaseService } from './lib/firebase';
   encapsulation: ViewEncapsulation.None
 })
 @RouteConfig([
-  { path: '/', redirectTo: '/counting' },
+  { path: '/', redirectTo: '/home' },
+  { path: '/home', as: 'Home', component: GameHomeComponent },
   { path: '/counting', as: 'Counting', component: CountingGameComponent }
 ])
 export class AppGameComponent {
   activePage: string = 'counting';
+  isHome: boolean = true;
   
   constructor(public router: Router) {}
   
-  setActive(page: string): void {
-    this.activePage = page;
+  setHome(flag: boolean): void {
+    this.isHome = flag;
   }
 }
 
