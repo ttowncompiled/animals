@@ -6,7 +6,7 @@
       <div *ng-if="hasQuestions()" class="panel panel-default">
         <div class="panel-heading">question {{ questionNumber }}</div>
         <div class="panel-body">
-          <p>Count how many {{ questionContent() }} you see in the picture.</p>
+          <p>Count how many {{ questionContent() }} do you see in the picture.</p>
           <form #f="form" (submit)="onSubmit(f.value)">
             <div *ng-for="#animal of currentQ.animals">
               <div *ng-if="animal.flag" class="row" style="margin-bottom:15px;">
