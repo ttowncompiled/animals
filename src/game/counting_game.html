@@ -73,10 +73,18 @@
                 <h3 *ng-if="nextScore < currentQ.animals.length && nextScore > 0" class="text-center">Great Job!</h3>
                 <h3 *ng-if="nextScore == currentQ.animals.length" class="text-center">Fantastic! :)</h3>
               </div>
+            </div>
+            <div class="row" style="margin-bottom:15px;">
               <div class="col-md-5 col-md-offset-4">
                 <img src="../../assets/star.png" alt="Star" style="width:100px;height:100px;" class="img-responsive pull-left">
                 <h1>&nbsp; x {{ nextScore }}</h1>
               </div>
+            </div>
+            <div class="row" style="margin-bottom:15px;">
+              <div class="col-md-12">
+                <button type="button" (click)="nextQuestion()" class="btn btn-default center-block">next question</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
