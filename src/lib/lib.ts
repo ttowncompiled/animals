@@ -30,6 +30,10 @@ export interface Question {
   new_animal: Control;
 }
 
+export function capitalize(name: string): string {
+  return name[0].toUpperCase() + name.substring(1);
+}
+
 export function pluralize(name: string): string {
   switch(name) {
     case 'cat': return 'cat(s)';
@@ -57,6 +61,14 @@ export function pluralize(name: string): string {
   return name;
 }
 
-export function capitalize(name: string): string {
-  return name[0].toUpperCase() + name.substring(1);
+export function shuffle(array: any[]): any[] {
+  var idx: number = array.length;
+  while (idx != 0) {
+    var randomIdx: number = Math.floor(Math.random() * idx);
+    idx--;
+    var tmp: any = array[idx];
+    array[idx] = array[randomIdx];
+    array[randomIdx] = tmp;
+  }
+  return array;
 }

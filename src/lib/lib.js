@@ -21,6 +21,10 @@ exports.ANIMALS = [
     'ladybug',
     'caterpillar'
 ];
+function capitalize(name) {
+    return name[0].toUpperCase() + name.substring(1);
+}
+exports.capitalize = capitalize;
 function pluralize(name) {
     switch (name) {
         case 'cat': return 'cat(s)';
@@ -48,7 +52,15 @@ function pluralize(name) {
     return name;
 }
 exports.pluralize = pluralize;
-function capitalize(name) {
-    return name[0].toUpperCase() + name.substring(1);
+function shuffle(array) {
+    var idx = array.length;
+    while (idx != 0) {
+        var randomIdx = Math.floor(Math.random() * idx);
+        idx--;
+        var tmp = array[idx];
+        array[idx] = array[randomIdx];
+        array[randomIdx] = tmp;
+    }
+    return array;
 }
-exports.capitalize = capitalize;
+exports.shuffle = shuffle;

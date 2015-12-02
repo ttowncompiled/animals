@@ -20,6 +20,7 @@ var CountingGameComponent = (function () {
         this.questions = [];
         this.questionNumber = -1;
         this.currentQ = null;
+        this.animalPics = [];
         this.finished = true;
         this.total = 0;
         this.score = 0;
@@ -45,12 +46,14 @@ var CountingGameComponent = (function () {
                 _this.questions = questions;
                 _this.questionNumber = 1;
                 _this.currentQ = _this.questions[0];
+                _this.loadAnimalPics(_this.currentQ.animals);
                 _this.finished = false;
             }
             else {
                 _this.questions = [];
                 _this.questionNumber = -1;
                 _this.currentQ = null;
+                _this.animalPics = [];
                 _this.finished = true;
             }
         });
@@ -60,6 +63,17 @@ var CountingGameComponent = (function () {
     };
     CountingGameComponent.prototype.hasQuestions = function () {
         return this.questions.length > 0;
+    };
+    CountingGameComponent.prototype.loadAnimalPics = function (animals) {
+        var pics = [];
+        animals.forEach(function (animal) {
+            for (var i = 0; i < animal.count; i++) {
+                pics.push("assets/" + animal.name + ".png");
+            }
+        });
+        pics = lib_1.shuffle(pics);
+        this.animalPics = pics;
+        console.log(pics);
     };
     CountingGameComponent.prototype.nextQuestion = function () {
         this.score += this.nextScore;
@@ -71,6 +85,7 @@ var CountingGameComponent = (function () {
             return;
         }
         this.currentQ = this.questions[this.questionNumber - 1];
+        this.loadAnimalPics(this.currentQ.animals);
     };
     CountingGameComponent.prototype.onSubmit = function (value) {
         var total = this.currentQ.animals.length;

@@ -8,7 +8,7 @@ import {
   ViewEncapsulation
 } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
-import { capitalize, pluralize } from '../lib/lib';
+import { capitalize, pluralize, shuffle } from '../lib/lib';
 declare var Rx;
 
 @Component({
@@ -24,6 +24,7 @@ export class CountingGameComponent {
   questions: GameQ[] = [];
   questionNumber: number = -1;
   currentQ: GameQ = null;
+  animalPics: string[] = [];
   finished: boolean = true;
   total: number = 0;
   score: number = 0;
@@ -51,11 +52,13 @@ export class CountingGameComponent {
           this.questions = questions;
           this.questionNumber = 1;
           this.currentQ = this.questions[0];
+          this.loadAnimalPics(this.currentQ.animals);
           this.finished = false;
         } else {
           this.questions = [];
           this.questionNumber = -1;
           this.currentQ = null;
+          this.animalPics = [];
           this.finished = true;
         }
       });
@@ -69,6 +72,18 @@ export class CountingGameComponent {
     return this.questions.length > 0;
   }
   
+  loadAnimalPics(animals: AnimalCount[]): void {
+    var pics: string[] = [];
+    animals.forEach((animal: AnimalCount) => {
+      for (var i: number = 0; i < animal.count; i++) {
+        pics.push(`assets/${ animal.name }.png`);
+      }
+    });
+    pics = shuffle(pics);
+    this.animalPics = pics;
+    console.log(pics);
+  }
+  
   nextQuestion(): void {
     this.score += this.nextScore;
     this.nextScore = 0;
@@ -79,6 +94,7 @@ export class CountingGameComponent {
       return;
     }
     this.currentQ = this.questions[this.questionNumber-1];
+    this.loadAnimalPics(this.currentQ.animals);
   }
   
   onSubmit(value: any): void {
