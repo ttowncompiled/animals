@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Animals</title>
+    <title>Animals-Admin</title>
     <!-- Angular 2 dependencies -->
     <script src="https://code.angularjs.org/tools/system.js"></script>
     <script src="https://code.angularjs.org/2.0.0-alpha.46/angular2.min.js"></script>
@@ -20,15 +20,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
       System.config({
+        baseURL: "/admin/",
         packages: {
           "src/": { defaultExtension: "js" },
-          "src/game": { defaultExtension: "js" }
+          "src/edit": { defaultExtension: "js" }
         }
       });
-      System.import("src/app_game");
+      System.import("src/app_edit");
     </script>
   </head>
   <body style="background: url(assets/backdrop.png);background-size:contain;">
-    <app-game></app-game>
+    <app-edit></app-edit>
   </body>
 </html>
