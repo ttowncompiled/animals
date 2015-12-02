@@ -24,6 +24,14 @@ export const ANIMALS = [
   'caterpillar'
 ];
 
+export interface Pic {
+  src: string;
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+
 export interface Question {
   value: number;
   animals: ControlGroup[];

@@ -56,7 +56,7 @@
     <!-- Animals -->
     <div class="row">
       <div *ng-for="#pic of animalPics" class="col-md-2">
-        <img src="{{ pic }}" alt="animal" style="width:50px;height:50px;" class="img-responsive">
+        <img src="{{ pic.src }}" alt="animal" style="width:75px;height:75px;" [style.margin-top.px]="pic.top" [style.margin-right.px]="pic.right" [style.margin-bottom.px]="pic.bottom" [style.margin-left.px]="pic.left" class="img-responsive">
       </div>
     </div>
   </div>

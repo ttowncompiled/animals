@@ -4,18 +4,19 @@ import {
   Component,
   NgFor,
   NgIf,
+  NgStyle,
   View,
   ViewEncapsulation
 } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
-import { capitalize, pluralize, shuffle } from '../lib/lib';
+import { Pic, capitalize, pluralize, shuffle } from '../lib/lib';
 declare var Rx;
 
 @Component({
   selector: 'counting-game'
 })
 @View({
-  directives: [FORM_DIRECTIVES, NgFor, NgIf],
+  directives: [FORM_DIRECTIVES, NgFor, NgIf, NgStyle],
   templateUrl: 'src/game/counting_game.html',
   encapsulation: ViewEncapsulation.None
 })
@@ -24,7 +25,7 @@ export class CountingGameComponent {
   questions: GameQ[] = [];
   questionNumber: number = -1;
   currentQ: GameQ = null;
-  animalPics: string[] = [];
+  animalPics: Pic[] = [];
   finished: boolean = true;
   total: number = 0;
   score: number = 0;
@@ -73,10 +74,17 @@ export class CountingGameComponent {
   }
   
   loadAnimalPics(animals: AnimalCount[]): void {
-    var pics: string[] = [];
+    var pics: Pic[] = [];
     animals.forEach((animal: AnimalCount) => {
       for (var i: number = 0; i < animal.count; i++) {
-        pics.push(`assets/${ animal.name }.png`);
+        var pic: Pic = {
+          src: `assets/${ animal.name }.png`,
+          top: 0,
+          right: Math.floor(Math.random() * 50),
+          bottom: Math.floor(Math.random() * 10),
+          left: Math.floor(Math.random() * 50)
+        };
+        pics.push(pic);
       }
     });
     pics = shuffle(pics);

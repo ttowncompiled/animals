@@ -68,7 +68,14 @@ var CountingGameComponent = (function () {
         var pics = [];
         animals.forEach(function (animal) {
             for (var i = 0; i < animal.count; i++) {
-                pics.push("assets/" + animal.name + ".png");
+                var pic = {
+                    src: "assets/" + animal.name + ".png",
+                    top: 0,
+                    right: Math.floor(Math.random() * 50),
+                    bottom: Math.floor(Math.random() * 10),
+                    left: Math.floor(Math.random() * 50)
+                };
+                pics.push(pic);
             }
         });
         pics = lib_1.shuffle(pics);
@@ -141,7 +148,7 @@ var CountingGameComponent = (function () {
             selector: 'counting-game'
         }),
         angular2_1.View({
-            directives: [angular2_1.FORM_DIRECTIVES, angular2_1.NgFor, angular2_1.NgIf],
+            directives: [angular2_1.FORM_DIRECTIVES, angular2_1.NgFor, angular2_1.NgIf, angular2_1.NgStyle],
             templateUrl: 'src/game/counting_game.html',
             encapsulation: angular2_1.ViewEncapsulation.None
         }), 
