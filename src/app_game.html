@@ -12,11 +12,14 @@
 
 <div *ng-if="isHome" class="row">
   <div class="col-md-4 col-md-offset-4">
-    <div class="panel panel-default">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="text-center">Games!</h3>
+      </div>
       <div class="panel-body">
         <div class="row">
-          <div class="col-md-3 col-md-offset-4">
-            <a type="button" class="btn btn-default" [router-link]="['/Counting']" (click)="route('counting')">Counting</a>
+          <div class="col-md-6 col-md-offset-3">
+            <a type="button" class="btn btn-default center-block" [router-link]="['/Counting']" (click)="route('counting')">Counting</a>
           </div>
         </div>
       </div>
