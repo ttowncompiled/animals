@@ -13,6 +13,7 @@ import { HomeComponent } from './game/home';
 import { CountingGameComponent } from './game/counting_game';
 import { WhatGameComponent } from './game/what_game';
 import { MemoryGameComponent } from './game/memory_game';
+import { SightGameComponent } from './game/sight_game';
 import { ColorGameComponent } from './game/color_game';
 import { FirebaseService } from './lib/firebase';
 import { capitalize } from './lib/lib';
@@ -31,6 +32,7 @@ import { capitalize } from './lib/lib';
   { path: '/counting', as: 'Counting', component: CountingGameComponent },
   { path: '/what', as: 'What', component: WhatGameComponent },
   { path: '/memory', as: 'Memory', component: MemoryGameComponent },
+  { path: '/sight', as: 'Sight', component: SightGameComponent },
   { path: '/color', as: 'Color', component: ColorGameComponent }
 ])
 export class AppGameComponent {

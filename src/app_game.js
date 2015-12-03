@@ -15,6 +15,7 @@ var home_1 = require('./game/home');
 var counting_game_1 = require('./game/counting_game');
 var what_game_1 = require('./game/what_game');
 var memory_game_1 = require('./game/memory_game');
+var sight_game_1 = require('./game/sight_game');
 var color_game_1 = require('./game/color_game');
 var firebase_1 = require('./lib/firebase');
 var AppGameComponent = (function () {
@@ -46,6 +47,7 @@ var AppGameComponent = (function () {
             { path: '/counting', as: 'Counting', component: counting_game_1.CountingGameComponent },
             { path: '/what', as: 'What', component: what_game_1.WhatGameComponent },
             { path: '/memory', as: 'Memory', component: memory_game_1.MemoryGameComponent },
+            { path: '/sight', as: 'Sight', component: sight_game_1.SightGameComponent },
             { path: '/color', as: 'Color', component: color_game_1.ColorGameComponent }
         ]), 
         __metadata('design:paramtypes', [router_1.Router])

@@ -1,0 +1,137 @@
+<div class="container">
+
+  <div *ng-if="!finished && !addScore">
+    <!-- Score -->
+    <div class="row" style="margin-bottom:15px;">
+      <div class="col-md-3 col-md-offset-5">
+        <img src="assets/star.png" alt="Star" style="width:50px;height:50px;" class="img-responsive pull-left">
+        <h1>x {{ score }}</h1>
+      </div>
+    </div>
+    <!-- Question Panel -->
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div *ng-if="hasQuestions()" class="panel panel-default">
+          <div class="panel-heading">
+            <!-- Header -->
+            <div class="row">
+              <!-- Question number -->
+              <div class="col-md-10">
+                <p>question {{ questionNumber }}</p>
+              </div>
+              <!-- Star value -->
+              <div class="col-md-2">
+                <img src="assets/star.png" alt="Star" style="width:25px;height:25px;" class="img-responsive pull-left">
+                <p>x {{ currentQ.animals.length }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <p>What am I?</p>
+            <div class="row" style="margin-bottom:15px;">
+              <div class="col-md-12">
+                <img src="assets/{{ currentQ.animals[0].name }}.png" alt="{{ currentQ.animals[0].name }}" style="width:75px;height:75px;" class="img-responsive center-block">
+              </div>
+            </div>
+            <form #f="form" (submit)="onSubmit(f.value)">
+              <div class="row" style="margin:15px;">
+                <div class="col-md-12">
+                  <select ng-control="name" class="form-control">
+                    <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add new star -->
+  <div *ng-if="!finished && addScore">
+    <!-- Score -->
+    <div class="row" style="margin-bottom:15px;">
+      <div class="col-md-3 col-md-offset-5">
+        <img src="assets/star.png" alt="Star" style="width:50px;height:50px;" class="img-responsive pull-left">
+        <h1>x {{ score }} + {{ nextScore }}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row" style="margin-bottom:15px;">
+              <div class="col-md-12">
+                <h3 class="text-center">I'm a {{ capitalize(currentQ.animals[0].name) }}!</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h3 *ng-if="nextScore == 0" class="text-center">You'll do better next time!</h3>
+                <h3 *ng-if="nextScore < currentQ.animals.length && nextScore > 0" class="text-center">Great Job!</h3>
+                <h3 *ng-if="nextScore == currentQ.animals.length" class="text-center">Fantastic! :)</h3>
+              </div>
+            </div>
+            <div class="row" style="margin-bottom:15px;">
+              <div class="col-md-5 col-md-offset-4">
+                <img src="assets/star.png" alt="Star" style="width:100px;height:100px;" class="img-responsive pull-left">
+                <h1>&nbsp; x {{ nextScore }}</h1>
+              </div>
+            </div>
+            <div class="row" style="margin-bottom:15px;">
+              <div class="col-md-12">
+                <button type="button" (click)="nextQuestion()" class="btn btn-default center-block">next question</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Finished Panel -->
+  <div *ng-if="finished && hasQuestions()">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="text-center">Congratulations! :)</h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="text-center">You scored:</h3>
+              </div>
+            </div>
+            <div class="row" style="margin-bottom:15px;">
+              <div class="col-md-5 col-md-offset-4">
+                <img src="assets/star.png" alt="Star" style="width:100px;height:100px;" class="img-responsive pull-left">
+                <h1>&nbsp; x {{ score }}</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="text-center">Out of:</h3>
+              </div>
+            </div>
+            <div class="row" style="margin-bottom:15px;">
+              <div class="col-md-5 col-md-offset-4">
+                <img src="assets/star.png" alt="Star" style="width:100px;height:100px;" class="img-responsive pull-left">
+                <h1>&nbsp; x {{ total }}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
