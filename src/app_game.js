@@ -14,6 +14,7 @@ var router_1 = require('angular2/router');
 var home_1 = require('./game/home');
 var counting_game_1 = require('./game/counting_game');
 var what_game_1 = require('./game/what_game');
+var memory_1 = require('./game/memory');
 var firebase_1 = require('./lib/firebase');
 var AppGameComponent = (function () {
     function AppGameComponent(router) {
@@ -42,7 +43,8 @@ var AppGameComponent = (function () {
             { path: '/', redirectTo: '/home' },
             { path: '/home', as: 'Home', component: home_1.HomeComponent },
             { path: '/counting', as: 'Counting', component: counting_game_1.CountingGameComponent },
-            { path: '/what', as: 'What', component: what_game_1.WhatGameComponent }
+            { path: '/what', as: 'What', component: what_game_1.WhatGameComponent },
+            { path: '/memory', as: 'Memory', component: memory_1.MemoryGameComponent }
         ]), 
         __metadata('design:paramtypes', [router_1.Router])
     ], AppGameComponent);
