@@ -11,49 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 /// <reference path="../lib/types.d.ts" />
 var angular2_1 = require('angular2/angular2');
-var firebase_1 = require('../lib/firebase');
 var lib_1 = require('../lib/lib');
 var MemoryGameComponent = (function () {
-    function MemoryGameComponent(firebase) {
-        var _this = this;
-        this.firebase = firebase;
+    function MemoryGameComponent() {
+        this.questionNumber = 1;
         this.questions = [];
-        this.questionNumber = -1;
         this.currentQ = null;
-        this.finished = true;
-        this.total = 0;
+        this.selected = -1;
+        this.finished = false;
         this.score = 0;
         this.nextScore = 0;
         this.addScore = false;
-        this.firebase.readChild(MemoryGameComponent.CHILD)
-            .flatMap(function (qs) {
-            var counter = 0;
-            return Rx.Observable.from(qs)
-                .map(function (q) {
-                return Object.keys(q)
-                    .map(function (animal) { return q[animal]; })
-                    .sort(function (left, right) { return left.createdAt - right.createdAt; });
-            })
-                .map(function (animals) {
-                counter++;
-                return { value: counter, animals: animals };
-            })
-                .toArray();
-        })
-            .subscribeOnNext(function (questions) {
-            if (questions != null) {
-                _this.questions = questions;
-                _this.questionNumber = 1;
-                _this.currentQ = _this.questions[0];
-                _this.finished = false;
-            }
-            else {
-                _this.questions = [];
-                _this.questionNumber = -1;
-                _this.currentQ = null;
-                _this.finished = true;
-            }
-        });
+        this.questions = this.loadQuestions();
+        this.currentQ = this.questions[0];
     }
     MemoryGameComponent.prototype.capitalize = function (name) {
         return lib_1.capitalize(name);
@@ -61,10 +31,38 @@ var MemoryGameComponent = (function () {
     MemoryGameComponent.prototype.hasQuestions = function () {
         return this.questions.length > 0;
     };
+    MemoryGameComponent.prototype.loadQuestions = function () {
+        var questions = [];
+        var count = 2;
+        var id = 0;
+        for (var i = 1; i <= 10; i++) {
+            var animals = [];
+            var names = lib_1.ANIMALS.slice();
+            for (var j = 1; j <= count; j++) {
+                var idx = Math.floor(Math.random() * names.length);
+                animals.push({ id: id, name: names[idx] });
+                id++;
+                animals.push({ id: id, name: names[idx] });
+                id++;
+                names.splice(idx, 1);
+            }
+            animals = lib_1.shuffle(animals);
+            var arrangement = [];
+            arrangement.push(animals.slice(0, animals.length / 2));
+            arrangement.push(animals.slice(animals.length / 2, animals.length));
+            if (i % 2 == 0) {
+                count++;
+            }
+            var q = { value: i, animals: arrangement };
+            questions.push(q);
+        }
+        return questions;
+    };
     MemoryGameComponent.prototype.nextQuestion = function () {
         this.score += this.nextScore;
         this.nextScore = 0;
         this.addScore = false;
+        this.selected = -1;
         this.questionNumber++;
         if (this.questionNumber > this.questions.length) {
             this.finished = true;
@@ -72,29 +70,19 @@ var MemoryGameComponent = (function () {
         }
         this.currentQ = this.questions[this.questionNumber - 1];
     };
-    MemoryGameComponent.prototype.onSubmit = function (value) {
-        var total = this.currentQ.animals.length;
-        var score = 0;
-        this.currentQ.animals.forEach(function (animal) {
-            if (value['name'].toLowerCase() == animal.name.toLowerCase()) {
-                score++;
-            }
-        });
-        this.addScore = true;
-        this.total += total;
-        this.nextScore = score;
+    MemoryGameComponent.prototype.select = function (id) {
+        this.selected = id;
     };
-    MemoryGameComponent.CHILD = 'what';
     MemoryGameComponent = __decorate([
         angular2_1.Component({
-            selector: 'what-game'
+            selector: 'memory-game'
         }),
         angular2_1.View({
             directives: [angular2_1.FORM_DIRECTIVES, angular2_1.NgFor, angular2_1.NgIf, angular2_1.NgStyle],
-            templateUrl: 'src/game/what_game.html',
+            templateUrl: 'src/game/memory_game.html',
             encapsulation: angular2_1.ViewEncapsulation.None
         }), 
-        __metadata('design:paramtypes', [firebase_1.FirebaseService])
+        __metadata('design:paramtypes', [])
     ], MemoryGameComponent);
     return MemoryGameComponent;
 })();

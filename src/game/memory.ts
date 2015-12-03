@@ -9,57 +9,30 @@ import {
   ViewEncapsulation
 } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
-import { Pic, capitalize, pluralize, shuffle } from '../lib/lib';
+import { ANIMALS, Pic, capitalize, pluralize, shuffle } from '../lib/lib';
 declare var Rx;
 
 @Component({
-  selector: 'what-game'
+  selector: 'memory-game'
 })
 @View({
   directives: [FORM_DIRECTIVES, NgFor, NgIf, NgStyle],
-  templateUrl: 'src/game/what_game.html',
+  templateUrl: 'src/game/memory_game.html',
   encapsulation: ViewEncapsulation.None
 })
 export class MemoryGameComponent {
-  static CHILD: string = 'what';
+  questionNumber: number = 1;
   questions: GameQ[] = [];
-  questionNumber: number = -1;
   currentQ: GameQ = null;
-  finished: boolean = true;
-  total: number = 0;
+  selected: number = -1;
+  finished: boolean = false;
   score: number = 0;
   nextScore: number = 0;
   addScore: boolean = false;
   
-  constructor(public firebase: FirebaseService) {
-    this.firebase.readChild(MemoryGameComponent.CHILD)
-      .flatMap((qs: WhatQ[]) => {
-        var counter: number = 0;
-        return Rx.Observable.from(qs)
-          .map((q: WhatQ) => {
-            return Object.keys(q)
-              .map((animal: string) => q[animal])
-              .sort((left: AnimalWhat, right: AnimalWhat) => left.createdAt - right.createdAt);
-          })
-          .map((animals: AnimalWhat[]) => {
-            counter++;
-            return { value: counter, animals: animals }
-          })
-          .toArray();
-      })
-      .subscribeOnNext((questions: GameQ[]) => {
-        if (questions != null) {
-          this.questions = questions;
-          this.questionNumber = 1;
-          this.currentQ = this.questions[0];
-          this.finished = false;
-        } else {
-          this.questions = [];
-          this.questionNumber = -1;
-          this.currentQ = null;
-          this.finished = true;
-        }
-      });
+  constructor() {
+    this.questions = this.loadQuestions();
+    this.currentQ = this.questions[0];
   }
   
   capitalize(name: string): string {
@@ -70,10 +43,39 @@ export class MemoryGameComponent {
     return this.questions.length > 0;
   }
   
+  loadQuestions(): GameQ[] {
+    var questions: GameQ[] = [];
+    var count: number = 2;
+    var id: number = 0;
+    for (var i: number = 1; i <= 10; i++) {
+      var animals: {id: number, name: string}[] = [];
+      var names: string[] = ANIMALS.slice();
+      for (var j: number = 1; j <= count; j++) {
+        var idx: number = Math.floor(Math.random() * names.length);
+        animals.push({id: id, name: names[idx]});
+        id++;
+        animals.push({id: id, name: names[idx]});
+        id++;
+        names.splice(idx, 1);
+      }
+      animals = shuffle(animals);
+      var arrangement: {id: number, name: string}[][] = [];
+      arrangement.push(animals.slice(0, animals.length / 2));
+      arrangement.push(animals.slice(animals.length / 2, animals.length));
+      if (i % 2 == 0) {
+        count++;
+      }
+      var q: GameQ = { value: i, animals: arrangement };
+      questions.push(q);
+    }
+    return questions;
+  }
+  
   nextQuestion(): void {
     this.score += this.nextScore;
     this.nextScore = 0;
     this.addScore = false;
+    this.selected = -1;
     this.questionNumber++;
     if (this.questionNumber > this.questions.length) {
       this.finished = true;
@@ -82,16 +84,7 @@ export class MemoryGameComponent {
     this.currentQ = this.questions[this.questionNumber-1];
   }
   
-  onSubmit(value: any): void {
-    var total: number = this.currentQ.animals.length;
-    var score: number = 0;
-    this.currentQ.animals.forEach((animal: AnimalWhat) => {
-      if (value['name'].toLowerCase() == animal.name.toLowerCase()) {
-        score++;
-      }
-    });
-    this.addScore = true;
-    this.total += total;
-    this.nextScore = score;
+  select(id: number): void {
+    this.selected = id;
   }
 }
