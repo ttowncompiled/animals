@@ -17,6 +17,7 @@ var WhatGameComponent = (function () {
     function WhatGameComponent(firebase) {
         var _this = this;
         this.firebase = firebase;
+        this.ANIMAL_NAMES = lib_1.ANIMALS.sort();
         this.questions = [];
         this.questionNumber = -1;
         this.currentQ = null;

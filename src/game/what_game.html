@@ -29,11 +29,11 @@
           <div class="panel-body">
             <p>{{ currentQ.animals[0].descr }} What am I?</p>
             <form #f="form" (submit)="onSubmit(f.value)">
-              <div class="row" style="margin-bottom:15px;">
+              <div class="row" style="margin:15px;">
                 <div class="col-md-12">
-                  <div class="input-group">
-                    <input type="text" ng-control="name" placeholder="animal name" class="form-control">
-                  </div>
+                  <select ng-control="name" class="form-control">
+                    <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
+                  </select>
                 </div>
               </div>
               <div class="row">

@@ -9,7 +9,7 @@ import {
   ViewEncapsulation
 } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
-import { Pic, capitalize, pluralize, shuffle } from '../lib/lib';
+import { ANIMALS, Pic, capitalize, pluralize, shuffle } from '../lib/lib';
 declare var Rx;
 
 @Component({
@@ -22,6 +22,7 @@ declare var Rx;
 })
 export class WhatGameComponent {
   static CHILD: string = 'what';
+  ANIMAL_NAMES = ANIMALS.sort();
   questions: GameQ[] = [];
   questionNumber: number = -1;
   currentQ: GameQ = null;
