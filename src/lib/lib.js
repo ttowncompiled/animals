@@ -21,6 +21,16 @@ exports.ANIMALS = [
     'ladybug',
     'caterpillar'
 ];
+exports.COLORS = {
+    brown: 'A52A2A',
+    orange: 'FFA500',
+    black: '000000',
+    green: '008000',
+    yellow: 'FFFF00',
+    pink: 'FFC0CB',
+    gray: '808080',
+    red: 'FF0000'
+};
 function capitalize(name) {
     return name[0].toUpperCase() + name.substring(1);
 }

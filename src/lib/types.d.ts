@@ -29,6 +29,16 @@ interface SightWord {
   createdAt: number;
 }
 
+interface ColorQ {
+  [animal: string]: AnimalColor;
+}
+
+interface AnimalColor {
+  name: string;
+  color: string;
+  createdAt: number;
+}
+
 interface GameQ {
   value: number;
   animals: any[];
