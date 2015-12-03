@@ -20,6 +20,15 @@ interface AnimalWhat {
   createdAt: number;
 }
 
+interface SightQ {
+  [animal: string]: SightWord;
+}
+
+interface SightWord {
+  name: string;
+  createdAt: number;
+}
+
 interface GameQ {
   value: number;
   animals: any[];

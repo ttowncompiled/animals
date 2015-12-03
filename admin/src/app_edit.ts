@@ -11,6 +11,7 @@ import {
 } from 'angular2/router';
 import { CountingComponent } from './edit/counting';
 import { WhatComponent } from './edit/what';
+import { SightComponent } from './edit/sight';
 import { FirebaseService } from './lib/firebase';
 
 @Component({
@@ -24,7 +25,8 @@ import { FirebaseService } from './lib/firebase';
 @RouteConfig([
   { path: '/', redirectTo: '/counting' },
   { path: '/counting', as: 'Counting', component: CountingComponent },
-  { path: '/what', as: 'What', component: WhatComponent }
+  { path: '/what', as: 'What', component: WhatComponent },
+  { path: '/sight', as: 'Sight', component: SightComponent }
 ])
 export class AppEditComponent {
   activePage: string = 'counting';

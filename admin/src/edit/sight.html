@@ -1,0 +1,48 @@
+<div class="container">
+  
+  <!-- Question Panels -->
+  <div *ng-for="#q of questions" class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading">question {{ q.value }}</div>
+        <div class="panel-body">
+          <!-- Animals -->
+          <div *ng-for="#animal of q.animals" class="row" style="margin-bottom:15px;">
+            <form [ng-form-model]="animal">
+              <div class="col-md-12">
+                <select [ng-form-control]="animal.controls['name']" class="form-control center-block">
+                  <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <!-- Button to remove the question -->
+          <div class="row">
+            <div class="col-md-1 col-md-offset-5">
+              <button type="button" (click)="removeQuestion(q.value)" class="btn btn-danger btn-sm">remove question</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Next Question Panel -->
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading">next question</div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-3">
+              <select [ng-form-control]="new_question" class="form-control">
+                <option value="none" selected></option>
+                <option *ng-for="#name of ANIMAL_NAMES" [value]="name">{{ capitalize(name) }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

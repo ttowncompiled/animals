@@ -13,6 +13,7 @@ var angular2_1 = require('angular2/angular2');
 var router_1 = require('angular2/router');
 var counting_1 = require('./edit/counting');
 var what_1 = require('./edit/what');
+var sight_1 = require('./edit/sight');
 var firebase_1 = require('./lib/firebase');
 var AppEditComponent = (function () {
     function AppEditComponent(router) {
@@ -34,7 +35,8 @@ var AppEditComponent = (function () {
         router_1.RouteConfig([
             { path: '/', redirectTo: '/counting' },
             { path: '/counting', as: 'Counting', component: counting_1.CountingComponent },
-            { path: '/what', as: 'What', component: what_1.WhatComponent }
+            { path: '/what', as: 'What', component: what_1.WhatComponent },
+            { path: '/sight', as: 'Sight', component: sight_1.SightComponent }
         ]), 
         __metadata('design:paramtypes', [router_1.Router])
     ], AppEditComponent);
