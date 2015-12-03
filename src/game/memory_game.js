@@ -104,9 +104,9 @@ var MemoryGameComponent = (function () {
         return matches;
     };
     MemoryGameComponent.prototype.showScore = function () {
-        this.addScore = true;
         this.total += this.currentQ.animals[0].length;
         this.nextScore = this.currentQ.animals[0].length;
+        this.addScore = true;
     };
     MemoryGameComponent = __decorate([
         angular2_1.Component({

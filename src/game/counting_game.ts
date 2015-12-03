@@ -89,7 +89,6 @@ export class CountingGameComponent {
     });
     pics = shuffle(pics);
     this.animalPics = pics;
-    console.log(pics);
   }
   
   nextQuestion(): void {

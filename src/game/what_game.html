@@ -97,7 +97,41 @@
   
   <!-- Finished Panel -->
   <div *ng-if="finished && hasQuestions()">
-    finished
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="text-center">Congratulations! :)</h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="text-center">You scored:</h3>
+              </div>
+            </div>
+            <div class="row" style="margin-bottom:15px;">
+              <div class="col-md-5 col-md-offset-4">
+                <img src="assets/star.png" alt="Star" style="width:100px;height:100px;" class="img-responsive pull-left">
+                <h1>&nbsp; x {{ score }}</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="text-center">Out of:</h3>
+              </div>
+            </div>
+            <div class="row" style="margin-bottom:15px;">
+              <div class="col-md-5 col-md-offset-4">
+                <img src="assets/star.png" alt="Star" style="width:100px;height:100px;" class="img-responsive pull-left">
+                <h1>&nbsp; x {{ total }}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>

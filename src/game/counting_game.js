@@ -80,7 +80,6 @@ var CountingGameComponent = (function () {
         });
         pics = lib_1.shuffle(pics);
         this.animalPics = pics;
-        console.log(pics);
     };
     CountingGameComponent.prototype.nextQuestion = function () {
         this.score += this.nextScore;

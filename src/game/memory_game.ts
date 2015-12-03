@@ -121,8 +121,8 @@ export class MemoryGameComponent {
   }
   
   showScore(): void {
-    this.addScore = true;
     this.total += this.currentQ.animals[0].length;
     this.nextScore = this.currentQ.animals[0].length;
+    this.addScore = true;
   }
 }

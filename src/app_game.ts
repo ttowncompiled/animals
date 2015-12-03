@@ -12,7 +12,7 @@ import {
 import { HomeComponent } from './game/home';
 import { CountingGameComponent } from './game/counting_game';
 import { WhatGameComponent } from './game/what_game';
-import { MemoryGameComponent } from './game/memory';
+import { MemoryGameComponent } from './game/memory_game';
 import { FirebaseService } from './lib/firebase';
 import { capitalize } from './lib/lib';
 
