@@ -42,7 +42,6 @@ var WhatComponent = (function () {
                     _this.firebase.observeChanges(g, WhatComponent.CHILD, counter, g.controls['name'].value);
                 });
                 var control = new angular2_1.Control("");
-                _this.listenForNewAnimal(control, counter);
                 return { value: counter, animals: groups, new_animal: control };
             })
                 .toArray();
@@ -59,15 +58,6 @@ var WhatComponent = (function () {
     }
     WhatComponent.prototype.capitalize = function (name) {
         return lib_1.capitalize(name);
-    };
-    WhatComponent.prototype.listenForNewAnimal = function (control, question) {
-        var _this = this;
-        control.valueChanges
-            .debounceTime(500)
-            .subscribe(function (name) {
-            var value = { name: name, descr: '', createdAt: Firebase.ServerValue.TIMESTAMP };
-            _this.firebase.addAnimal(WhatComponent.CHILD, question, name, value);
-        });
     };
     WhatComponent.prototype.listenForNewQuestion = function () {
         var _this = this;

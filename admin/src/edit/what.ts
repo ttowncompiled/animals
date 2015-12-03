@@ -49,7 +49,6 @@ export class WhatComponent {
               this.firebase.observeChanges(g, WhatComponent.CHILD, counter, g.controls['name'].value);
             })
             var control: Control = new Control("");
-            this.listenForNewAnimal(control, counter);
             return { value: counter, animals: groups, new_animal: control }
           })
           .toArray();
@@ -66,15 +65,6 @@ export class WhatComponent {
   
   capitalize(name: string): string {
     return capitalize(name);
-  }
-  
-  listenForNewAnimal(control: Control, question: number): void {
-    control.valueChanges
-      .debounceTime(500)
-      .subscribe((name: string) => {
-        var value: any = { name: name, descr: '', createdAt: Firebase.ServerValue.TIMESTAMP };
-        this.firebase.addAnimal(WhatComponent.CHILD, question, name, value)
-      });
   }
   
   listenForNewQuestion(): void {
