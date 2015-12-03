@@ -36,7 +36,7 @@
     <div *ng-if="hasQuestions()">
       <div *ng-for="#animals of currentQ.animals">
         <div class="row" style="margin-top: 15px;">
-          <div class='col-md-{{ (12 - animals.length) / 2 }}'>
+          <div class='col-md-{{ calculateOffset() }}'>
             &nbsp;
           </div>
           <div *ng-for="#animal of animals" class="col-md-1">
@@ -70,8 +70,8 @@
             <div class="row">
               <div class="col-md-12">
                 <h3 *ng-if="nextScore == 0" class="text-center">You'll do better next time!</h3>
-                <h3 *ng-if="nextScore < currentQ.animals.length && nextScore > 0" class="text-center">Great Job!</h3>
-                <h3 *ng-if="nextScore == currentQ.animals.length" class="text-center">Fantastic! :)</h3>
+                <h3 *ng-if="nextScore < currentQ.animals[0].length && nextScore > 0" class="text-center">Great Job!</h3>
+                <h3 *ng-if="nextScore == currentQ.animal[0].length" class="text-center">Fantastic! :)</h3>
               </div>
             </div>
             <div class="row" style="margin-bottom:15px;">

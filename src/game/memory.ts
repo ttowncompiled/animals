@@ -43,6 +43,10 @@ export class MemoryGameComponent {
     return capitalize(name);
   }
   
+  calculateOffset(): number {
+    return Math.floor((12 - this.currentQ.animals[0].length) / 2);
+  }
+  
   hasQuestions(): boolean {
     return this.questions.length > 0;
   }

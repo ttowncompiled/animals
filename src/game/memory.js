@@ -32,6 +32,9 @@ var MemoryGameComponent = (function () {
     MemoryGameComponent.prototype.capitalize = function (name) {
         return lib_1.capitalize(name);
     };
+    MemoryGameComponent.prototype.calculateOffset = function () {
+        return Math.floor((12 - this.currentQ.animals[0].length) / 2);
+    };
     MemoryGameComponent.prototype.hasQuestions = function () {
         return this.questions.length > 0;
     };
