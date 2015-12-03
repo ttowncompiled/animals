@@ -40,12 +40,12 @@
             &nbsp;
           </div>
           <div *ng-for="#animal of animals" class="col-md-1">
-            <div *ng-if="selected != animal.id">
-              <button type="button" (click)="select(animal.id)" class="btn btn-default" style="width:75px;height:75px;">
+            <div *ng-if="!isMatched(animal.name) && selected.id != animal.id">
+              <button type="button" (click)="select(animal.id, animal.name)" class="btn btn-default" style="width:75px;height:75px;">
                 <img src="assets/bush.png" class="img-responsive" style="width:50px;height:50px;">
               </button>
             </div>
-            <div *ng-if="selected == animal.id">
+            <div *ng-if="isMatched(animal.name) || selected.id == animal.id">
               <img src="assets/{{ animal.name }}.png" class="img-responsive" style="width:75px;height:75px;">
             </div>
           </div>

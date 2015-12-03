@@ -17,19 +17,26 @@ var MemoryGameComponent = (function () {
         this.questionNumber = 1;
         this.questions = [];
         this.currentQ = null;
-        this.selected = -1;
+        this.selected = { id: -1, name: '' };
+        this.matches = {};
+        this.matched = 0;
         this.finished = false;
+        this.total = 0;
         this.score = 0;
         this.nextScore = 0;
         this.addScore = false;
         this.questions = this.loadQuestions();
         this.currentQ = this.questions[0];
+        this.matches = this.setupMatches();
     }
     MemoryGameComponent.prototype.capitalize = function (name) {
         return lib_1.capitalize(name);
     };
     MemoryGameComponent.prototype.hasQuestions = function () {
         return this.questions.length > 0;
+    };
+    MemoryGameComponent.prototype.isMatched = function (name) {
+        return this.matches[name];
     };
     MemoryGameComponent.prototype.loadQuestions = function () {
         var questions = [];
@@ -62,16 +69,41 @@ var MemoryGameComponent = (function () {
         this.score += this.nextScore;
         this.nextScore = 0;
         this.addScore = false;
-        this.selected = -1;
+        this.selected = { id: -1, name: '' };
+        this.matched = 0;
         this.questionNumber++;
         if (this.questionNumber > this.questions.length) {
             this.finished = true;
             return;
         }
         this.currentQ = this.questions[this.questionNumber - 1];
+        this.matches = this.setupMatches();
     };
-    MemoryGameComponent.prototype.select = function (id) {
-        this.selected = id;
+    MemoryGameComponent.prototype.select = function (id, name) {
+        if (this.selected.name == name) {
+            this.matches[name] = true;
+            this.matched++;
+        }
+        if (this.matched == this.currentQ.animals[0].length) {
+            this.showScore();
+        }
+        else {
+            this.selected = { id: id, name: name };
+        }
+    };
+    MemoryGameComponent.prototype.setupMatches = function () {
+        var matches = {};
+        this.currentQ.animals.forEach(function (animals) {
+            animals.forEach(function (animal) {
+                matches[animal.name] = false;
+            });
+        });
+        return matches;
+    };
+    MemoryGameComponent.prototype.showScore = function () {
+        this.addScore = true;
+        this.total += this.currentQ.animals[0].length;
+        this.nextScore = this.currentQ.animals[0].length;
     };
     MemoryGameComponent = __decorate([
         angular2_1.Component({
