@@ -12,6 +12,7 @@ import {
 import { CountingComponent } from './edit/counting';
 import { WhatComponent } from './edit/what';
 import { SightComponent } from './edit/sight';
+import { ColorComponent } from './edit/color';
 import { FirebaseService } from './lib/firebase';
 
 @Component({
@@ -26,7 +27,8 @@ import { FirebaseService } from './lib/firebase';
   { path: '/', redirectTo: '/counting' },
   { path: '/counting', as: 'Counting', component: CountingComponent },
   { path: '/what', as: 'What', component: WhatComponent },
-  { path: '/sight', as: 'Sight', component: SightComponent }
+  { path: '/sight', as: 'Sight', component: SightComponent },
+  { path: '/color', as: 'Color', component: ColorComponent }
 ])
 export class AppEditComponent {
   activePage: string = 'counting';

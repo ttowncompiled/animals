@@ -24,6 +24,17 @@ export const ANIMALS = [
   'caterpillar'
 ];
 
+export const COLORS = {
+  brown: 'A52A2A',
+  orange: 'FFA500',
+  black: '000000',
+  green: '008000',
+  yellow: 'FFFF00',
+  pink: 'FFC0CB',
+  gray: '808080',
+  red: 'FF0000'
+};
+
 export interface Pic {
   src: string;
   top: number;

@@ -9,35 +9,37 @@ import {
   ViewEncapsulation
 } from 'angular2/angular2';
 import { FirebaseService } from '../lib/firebase';
-import { ANIMALS, capitalize, Question } from '../lib/lib';
+import { ANIMALS, COLORS, capitalize, Question } from '../lib/lib';
 declare var Rx;
 
 @Component({
-  selector: 'sight'
+  selector: 'color'
 })
 @View({
   directives: [FORM_DIRECTIVES, NgFor],
-  templateUrl: 'src/edit/sight.html',
+  templateUrl: 'src/edit/color.html',
   encapsulation: ViewEncapsulation.None
 })
-export class SightComponent {
-  static CHILD: string = 'sight';
+export class ColorComponent {
+  static CHILD: string = 'color';
   ANIMAL_NAMES: string[] = ANIMALS.sort();
+  COLORS: string[] = Object.keys(COLORS).sort();
   questions: Question[] = [];
   new_question: Control = new Control("");
   
   constructor(public firebase: FirebaseService) {
-    this.firebase.onChild(SightComponent.CHILD)
-      .flatMap((qs: SightQ[]) => {
+    this.firebase.onChild(ColorComponent.CHILD)
+      .flatMap((qs: ColorQ[]) => {
         var counter: number = 0;
         return Rx.Observable.from(qs)
-          .map((q: SightQ) => {
+          .map((q: ColorQ) => {
             return Object.keys(q)
               .map((animal: string) => q[animal])
-              .sort((left: SightWord, right: SightWord) => left.createdAt - right.createdAt)
-              .map((pair: SightWord) => {
+              .sort((left: AnimalColor, right: AnimalColor) => left.createdAt - right.createdAt)
+              .map((pair: AnimalColor) => {
                 return  new ControlGroup({
                   name: new Control(pair.name),
+                  color: new Control(pair.color),
                   createdAt: new Control(pair.createdAt)
                 });
               });
@@ -45,7 +47,7 @@ export class SightComponent {
           .map((groups: ControlGroup[]) => {
             counter++;
             groups.forEach((g: ControlGroup) => {
-              this.firebase.observeChanges(g, SightComponent.CHILD, counter, g.controls['name'].value);
+              this.firebase.observeChanges(g, ColorComponent.CHILD, counter, g.controls['name'].value);
             })
             var control: Control = new Control("");
             return { value: counter, animals: groups, new_animal: control }
@@ -70,18 +72,18 @@ export class SightComponent {
     this.new_question.valueChanges
       .debounceTime(500)
       .subscribe((name: string) => {
-        var value: any = { name: name, createdAt: Firebase.ServerValue.TIMESTAMP };
-        this.firebase.addQuestion(SightComponent.CHILD, this.questions.length+1, name, value);
+        var value: any = { name: name, color: '', createdAt: Firebase.ServerValue.TIMESTAMP };
+        this.firebase.addQuestion(ColorComponent.CHILD, this.questions.length+1, name, value);
         this.new_question = new Control("");
         this.listenForNewQuestion();
       });
   }
   
   removeAnimal(question: number, name: string): void {
-    this.firebase.removeAnimal(SightComponent.CHILD, question, name);
+    this.firebase.removeAnimal(ColorComponent.CHILD, question, name);
   }
   
   removeQuestion(question: number): void {
-    this.firebase.removeQuestion(SightComponent.CHILD, question);
+    this.firebase.removeQuestion(ColorComponent.CHILD, question);
   }
 }

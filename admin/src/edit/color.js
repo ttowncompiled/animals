@@ -13,14 +13,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var angular2_1 = require('angular2/angular2');
 var firebase_1 = require('../lib/firebase');
 var lib_1 = require('../lib/lib');
-var SightComponent = (function () {
-    function SightComponent(firebase) {
+var ColorComponent = (function () {
+    function ColorComponent(firebase) {
         var _this = this;
         this.firebase = firebase;
         this.ANIMAL_NAMES = lib_1.ANIMALS.sort();
+        this.COLORS = Object.keys(lib_1.COLORS).sort();
         this.questions = [];
         this.new_question = new angular2_1.Control("");
-        this.firebase.onChild(SightComponent.CHILD)
+        this.firebase.onChild(ColorComponent.CHILD)
             .flatMap(function (qs) {
             var counter = 0;
             return Rx.Observable.from(qs)
@@ -31,6 +32,7 @@ var SightComponent = (function () {
                     .map(function (pair) {
                     return new angular2_1.ControlGroup({
                         name: new angular2_1.Control(pair.name),
+                        color: new angular2_1.Control(pair.color),
                         createdAt: new angular2_1.Control(pair.createdAt)
                     });
                 });
@@ -38,7 +40,7 @@ var SightComponent = (function () {
                 .map(function (groups) {
                 counter++;
                 groups.forEach(function (g) {
-                    _this.firebase.observeChanges(g, SightComponent.CHILD, counter, g.controls['name'].value);
+                    _this.firebase.observeChanges(g, ColorComponent.CHILD, counter, g.controls['name'].value);
                 });
                 var control = new angular2_1.Control("");
                 return { value: counter, animals: groups, new_animal: control };
@@ -55,38 +57,38 @@ var SightComponent = (function () {
         });
         this.listenForNewQuestion();
     }
-    SightComponent.prototype.capitalize = function (name) {
+    ColorComponent.prototype.capitalize = function (name) {
         return lib_1.capitalize(name);
     };
-    SightComponent.prototype.listenForNewQuestion = function () {
+    ColorComponent.prototype.listenForNewQuestion = function () {
         var _this = this;
         this.new_question.valueChanges
             .debounceTime(500)
             .subscribe(function (name) {
-            var value = { name: name, createdAt: Firebase.ServerValue.TIMESTAMP };
-            _this.firebase.addQuestion(SightComponent.CHILD, _this.questions.length + 1, name, value);
+            var value = { name: name, color: '', createdAt: Firebase.ServerValue.TIMESTAMP };
+            _this.firebase.addQuestion(ColorComponent.CHILD, _this.questions.length + 1, name, value);
             _this.new_question = new angular2_1.Control("");
             _this.listenForNewQuestion();
         });
     };
-    SightComponent.prototype.removeAnimal = function (question, name) {
-        this.firebase.removeAnimal(SightComponent.CHILD, question, name);
+    ColorComponent.prototype.removeAnimal = function (question, name) {
+        this.firebase.removeAnimal(ColorComponent.CHILD, question, name);
     };
-    SightComponent.prototype.removeQuestion = function (question) {
-        this.firebase.removeQuestion(SightComponent.CHILD, question);
+    ColorComponent.prototype.removeQuestion = function (question) {
+        this.firebase.removeQuestion(ColorComponent.CHILD, question);
     };
-    SightComponent.CHILD = 'sight';
-    SightComponent = __decorate([
+    ColorComponent.CHILD = 'color';
+    ColorComponent = __decorate([
         angular2_1.Component({
-            selector: 'sight'
+            selector: 'color'
         }),
         angular2_1.View({
             directives: [angular2_1.FORM_DIRECTIVES, angular2_1.NgFor],
-            templateUrl: 'src/edit/sight.html',
+            templateUrl: 'src/edit/color.html',
             encapsulation: angular2_1.ViewEncapsulation.None
         }), 
         __metadata('design:paramtypes', [firebase_1.FirebaseService])
-    ], SightComponent);
-    return SightComponent;
+    ], ColorComponent);
+    return ColorComponent;
 })();
-exports.SightComponent = SightComponent;
+exports.ColorComponent = ColorComponent;
