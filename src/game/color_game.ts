@@ -26,6 +26,7 @@ export class ColorGameComponent {
   questionNumber: number = -1;
   currentQ: GameQ = null;
   colors: string[][] = [];
+  selected: string = '';
   finished: boolean = true;
   total: number = 0;
   score: number = 0;
@@ -101,18 +102,23 @@ export class ColorGameComponent {
     }
     this.currentQ = this.questions[this.questionNumber-1];
     this.colors = this.loadColors();
+    this.selected = '';
   }
   
   onSubmit(value: any): void {
     var total: number = this.currentQ.animals.length;
     var score: number = 0;
     this.currentQ.animals.forEach((animal: AnimalWhat) => {
-      if (value['name'].toLowerCase() == animal.name.toLowerCase()) {
+      if (this.selected == COLORS[this.currentQ.animals[0].color]) {
         score++;
       }
     });
     this.addScore = true;
     this.total += total;
     this.nextScore = score;
+  }
+  
+  select(color: string): void {
+    this.selected = color;
   }
 }

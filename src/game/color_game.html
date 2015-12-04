@@ -30,14 +30,14 @@
             <p>What color am I?</p>
             <div class="row" style="margin-bottom:15px;">
               <div class="col-md-12">
-                <img src="assets/{{ currentQ.animals[0].name }}_bw.jpg" alt="{{ currentQ.animals[0].name }}" style="width:250px;height:150px;" class="img-responsive center-block">
+                <img src="assets/{{ currentQ.animals[0].name }}_bw.png" alt="{{ currentQ.animals[0].name }}" style="width:250px;height:150px;" class="img-responsive center-block">
               </div>
             </div>
             <form #f="form" (submit)="onSubmit(f.value)">
               <div *ng-for="#color_row of colors" class="row" style="margin-bottom:15px;">
                 <div *ng-for="#color of color_row" class="col-md-3">
-                  <button type="button" class="btn btn-default img-rounded" [style.background-color]="color">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ color }}
+                  <button type="button" (click)="select(color)" class="btn" [style.background-color]="color" [style.border-color]="color">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   </button>
                 </div>
               </div>

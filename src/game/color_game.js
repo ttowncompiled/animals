@@ -21,6 +21,7 @@ var ColorGameComponent = (function () {
         this.questionNumber = -1;
         this.currentQ = null;
         this.colors = [];
+        this.selected = '';
         this.finished = true;
         this.total = 0;
         this.score = 0;
@@ -91,18 +92,23 @@ var ColorGameComponent = (function () {
         }
         this.currentQ = this.questions[this.questionNumber - 1];
         this.colors = this.loadColors();
+        this.selected = '';
     };
     ColorGameComponent.prototype.onSubmit = function (value) {
+        var _this = this;
         var total = this.currentQ.animals.length;
         var score = 0;
         this.currentQ.animals.forEach(function (animal) {
-            if (value['name'].toLowerCase() == animal.name.toLowerCase()) {
+            if (_this.selected == lib_1.COLORS[_this.currentQ.animals[0].color]) {
                 score++;
             }
         });
         this.addScore = true;
         this.total += total;
         this.nextScore = score;
+    };
+    ColorGameComponent.prototype.select = function (color) {
+        this.selected = color;
     };
     ColorGameComponent.CHILD = 'color';
     ColorGameComponent = __decorate([
